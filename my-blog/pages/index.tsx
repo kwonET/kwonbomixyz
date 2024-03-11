@@ -15,7 +15,7 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
             {metadata.title}
           </span>
         </div>
-        <RecentPosts posts={posts} />
+        {/* <RecentPosts posts={posts} /> */}
       </div>
     </Container>
   );

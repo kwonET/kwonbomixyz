@@ -14,7 +14,7 @@ const RecentPosts = ({ posts }) => {
           >
             <a className="mt-5">
               <div className={`font-medium text-xl`}>{post.title}</div>
-              <div className={`font-light`}>{post.description}</div>
+              <div className={`font-normal`}>{post.description}</div>
             </a>
           </Link>
         ))}
