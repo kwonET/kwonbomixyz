@@ -26,7 +26,7 @@ const Container = (props) => {
       <div className={`h-full flex flex-row`}>
         <Nav isMenu={true} />
         <div className={`w-px h-full bg-black`}></div>
-        <main className="flex-1 flex justify-center">{props.children}</main>
+        <main className="flex-1 flex justify-left">{props.children}</main>
         <div className={`w-px h-full bg-black`}></div>
         <Nav isMenu={false} />
       </div>
