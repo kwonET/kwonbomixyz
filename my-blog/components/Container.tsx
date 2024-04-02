@@ -15,21 +15,25 @@ const Container = (props) => {
         <meta content={meta.description} name="description" />
         <meta property="og:site_name" content={meta.author} />
       </Head>
+
       <header
         className={`w-full flex flex-col justify-between items-left my-1`}
       >
         <div className={`flex flex-row items-center`}>
           <span className={`ml-6 mt-6 text-2xl`}>{metadata.title}</span>
         </div>
-        <div className={`max-w-screen h-px bg-black`}></div>
+        <div className={`max-w-screen h-px bg-black -mt-2`}></div>
+        
+
+        <div className={`flex h-[theme(containerHeight.home-height)] w-full`}>
+          <Nav isMenu={true} />
+          <div className={`static h-lvh w-px bg-black`}></div>
+          <div className={`static ml-auto mr-[118px] h-lvh w-px bg-black`}></div>
+        </div>
+
       </header>
-      <div className={`h-full flex flex-row`}>
-        <Nav isMenu={true} />
-        <div className={`max-h-screen w-px bg-black`}></div>
-        <main className="flex-1 flex justify-left">{props.children}</main>
-        <div className={`max-h-screen w-px bg-black`}></div>
-        <Nav isMenu={false} />
-      </div>
+      <div className={`max-w-screen h-px bg-black -mt-2`}></div>
+      <main className="flex-1 flex justify-left ml-[124px]">{props.children}</main>
     </div>
   );
 };

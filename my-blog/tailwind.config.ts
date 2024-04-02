@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      containerHeight:{
+"home-height":"128px",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

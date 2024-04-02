@@ -8,7 +8,7 @@ const Nav = (props) => {
       <div className={`flex flex-col ml-6`}>
         {navlinks.map((nav) => (
           <Link href={nav.link} key={nav.title} legacyBehavior>
-            <a className={`text-base font-medium`}>{nav.title}</a>
+            <a className={`text-base font-medium`}  >{nav.title}</a>
           </Link>
         ))}
       </div>
