@@ -6,7 +6,7 @@ import { InferGetStaticPropsType } from "next";
 
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <Container>
+    <Container checkedMenu={'Home'}>
       <div className={`my-5 w-full`}>
         <div className={`relative`}>
           

@@ -5,15 +5,19 @@ import { useMDXComponent } from "next-contentlayer/hooks";
 
 const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const MDXComponent = useMDXComponent(post.body.code);
+  const postDate = new Date(post.date);
+  let day = postDate.getDate();
+  let month = postDate.getMonth()+1;
+  let year = postDate.getFullYear();
+
   const customMeta = {
     title: post.title,
-    description: post.description,
-    date: new Date(post.date).toISOString(),
+    tag: post.tag,
+    date: `${year}.${month}.${day}`,
   };
   return (
-    <Container customMeta={customMeta}>
+    <Container customMeta={customMeta} checkedMenu='BlogDetail'>
       <div className="mt-10 prose">
-        <h1 className="text-sky-700">{post.title}</h1>
         <MDXComponent />
       </div>
     </Container>

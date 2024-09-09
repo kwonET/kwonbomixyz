@@ -4,13 +4,13 @@ import { allPosts } from "contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
 const blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <Container>
-      <div className={`mt-10 flex flex-col`}>
+    <Container checkedMenu='Blog'>
+      <div className={`w-full mt-10 flex flex-col`}>
         {posts.map((post) => (
           <BlogPost
             date={post.date}
             title={post.title}
-            des={post.description}
+            tag={post.tag}
             slug={post._raw.flattenedPath}
             key={post._id}
           />
