@@ -5,7 +5,7 @@ import { InferGetStaticPropsType } from "next";
 const blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Container checkedMenu='Blog'>
-      <div className={`w-full mt-10 flex flex-col`}>
+      <div className={`w-full mt-72 flex flex-col`}>
         {posts.map((post) => (
           <BlogPost
             date={post.date}

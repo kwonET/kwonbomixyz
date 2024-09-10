@@ -21,11 +21,11 @@ const Container = (props) => {
         <meta property="og:site_name" content={meta.author} />
       </Head>
       <header
-        className={`w-full flex flex-col justify-between items-left my-1`}
+        className={`fixed w-full flex flex-col justify-between items-left my-1 bg-white `}
       >
         {/* 메뉴바 */}
         <div className={`flex flex-row items-center`}>
-          <span className={`ml-6 mt-6 text-2xl font-medium`}>{metadata.title}</span>
+          <span className={`ml-6 mt-6 text-xl font-medium`}>{metadata.title}</span>
         </div>
         <div className={`max-w-screen h-px bg-black -mt-2`}></div>
         {/* 중간 콘텐츠 */}
@@ -37,7 +37,7 @@ const Container = (props) => {
           <div className={`flex flex-col w-full justify-center`}>
             <div>{props.checkedMenu === "Artwork" ? <Preview /> : <></>}</div>
 
-            <div>{props.checkedMenu === "BlogDetail" ? <h1 className="text-center font-semibold text-2xl ">{meta.title}</h1> : <></>}</div>
+            <div>{props.checkedMenu === "BlogDetail" ? <h1 className="text-center font-semibold text-2xl mt-5">{meta.title}</h1> : <></>}</div>
             <div>{props.checkedMenu === "BlogDetail" ? <h1 className="text-right text-sm">{meta.date}</h1> : <></>}</div>
 
           </div>
@@ -45,10 +45,9 @@ const Container = (props) => {
           {/* 세로선 */}
           <FullHeightLineMargin />
         </div>
+        <div className={`max-w-screen h-px bg-black -mt-2`}></div>
       </header>
-
-      <div className={`max-w-screen h-px bg-black -mt-2`}></div>
-      <main className="flex-1 flex justify-between ml-[124px] mr-[124px]">{props.children}</main>
+      <main className="flex-1 flex justify-between ml-[124px] mr-[124px] mt-20">{props.children}</main>
     </div>
   );
 };
