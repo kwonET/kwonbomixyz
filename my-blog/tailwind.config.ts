@@ -8,21 +8,24 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      containerHeight:{
-        "home-height":"128px",
+      containerHeight: {
+        "home-height": "128px",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
-      colors:{
-        'my-gray':'#EAEAEA',
-        'my-lightblue':'#D0E6F8',
-        'my-blue':'#D0E6F8',
+      colors: {
+        "my-gray": "#EAEAEA",
+        "my-lightblue": "#D0E6F8",
+        "my-blue": "#D0E6F8",
         // 'my-highlight':'#01D7E4',
-        'my-highlight':'#00FFC2',
-      }
+        "my-highlight": "#00FFC2",
+      },
+      height: {
+        lvh: "100lvh",
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],

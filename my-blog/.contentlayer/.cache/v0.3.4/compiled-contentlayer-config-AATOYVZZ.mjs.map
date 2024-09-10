@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../contentlayer.config.ts"],
+  "sourcesContent": ["import { makeSource, defineDocumentType } from \"contentlayer/source-files\";\n\nexport const Post = defineDocumentType(() => ({\n  name: \"Post\",\n  contentType: \"mdx\",\n  filePathPattern: `**/*.mdx`,\n  fields: {\n    title: { type: \"string\", required: true },\n    description: {\n      type: 'string',\n      required: true,\n    },thumbnail: {\n      type: 'string',\n      required: false,\n    },\n\n    date: { type: \"string\", required: true },\n    tag: { type: \"string\", required: true },\n  },\n}));\n\nexport default makeSource({\n  contentDirPath: \"posts\",\n  documentTypes: [Post],\n});\n"],
+  "mappings": ";AAAA,SAAS,YAAY,0BAA0B;AAExC,IAAM,OAAO,mBAAmB,OAAO;AAAA,EAC5C,MAAM;AAAA,EACN,aAAa;AAAA,EACb,iBAAiB;AAAA,EACjB,QAAQ;AAAA,IACN,OAAO,EAAE,MAAM,UAAU,UAAU,KAAK;AAAA,IACxC,aAAa;AAAA,MACX,MAAM;AAAA,MACN,UAAU;AAAA,IACZ;AAAA,IAAE,WAAW;AAAA,MACX,MAAM;AAAA,MACN,UAAU;AAAA,IACZ;AAAA,IAEA,MAAM,EAAE,MAAM,UAAU,UAAU,KAAK;AAAA,IACvC,KAAK,EAAE,MAAM,UAAU,UAAU,KAAK;AAAA,EACxC;AACF,EAAE;AAEF,IAAO,8BAAQ,WAAW;AAAA,EACxB,gBAAgB;AAAA,EAChB,eAAe,CAAC,IAAI;AACtB,CAAC;",
+  "names": []
+}

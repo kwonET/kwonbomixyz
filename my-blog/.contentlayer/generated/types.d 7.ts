@@ -14,8 +14,6 @@ export type Post = {
   _raw: Local.RawDocumentData
   type: 'Post'
   title: string
-  description: string
-  thumbnail?: string | undefined
   date: string
   tag: string
   /** MDX file body */

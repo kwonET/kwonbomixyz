@@ -1,7 +1,7 @@
 import Container from "../components/Container";
 import metadata from "../data/metadata";
 import RecentPosts from "../components/RecentPosts";
-import { allPosts } from "contentlayer/generated";
+import { allPosts } from "@/contentlayer/generated/Post/_index 4.mjs";
 import { InferGetStaticPropsType } from "next";
 
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -9,7 +9,7 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
     <Container checkedMenu={'Home'}>
       <div className={`my-5 w-full`}>
         <div className={`relative`}>
-          
+
         </div>
         {/* <RecentPosts posts={posts} /> */}
       </div>

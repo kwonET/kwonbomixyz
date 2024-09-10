@@ -1,7 +1,7 @@
+// contentlayer.config.ts
 import { makeSource, defineDocumentType } from "contentlayer/source-files";
 import rehypeHighlight from "rehype-highlight";
-
-export const Post = defineDocumentType(() => ({
+var Post = defineDocumentType(() => ({
   name: "Post",
   contentType: "mdx",
   filePathPattern: `**/*.mdx`,
@@ -9,29 +9,34 @@ export const Post = defineDocumentType(() => ({
     title: { type: "string", required: true },
     description: {
       type: "string",
-      required: true,
+      required: true
     },
     thumbnail: {
       type: "string",
-      required: false,
+      required: false
     },
     date: { type: "string", required: true },
-    tag: { type: "string", required: true },
-  },
+    tag: { type: "string", required: true }
+  }
 }));
-
-export default makeSource({
+var contentlayer_config_default = makeSource({
   contentDirPath: "posts",
   documentTypes: [Post],
   mdx: {
     remarkPlugins: [],
     rehypePlugins: [
       [
-        rehypeHighlight as any,
+        rehypeHighlight,
         {
-          theme: "github-dark", // 코드작성시 적용할 테마
-        },
-      ],
-    ],
-  },
+          theme: "github-dark"
+          // 코드작성시 적용할 테마
+        }
+      ]
+    ]
+  }
 });
+export {
+  Post,
+  contentlayer_config_default as default
+};
+//# sourceMappingURL=compiled-contentlayer-config-GSCZMH66.mjs.map

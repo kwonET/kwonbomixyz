@@ -1,6 +1,6 @@
 import Container from "../components/Container";
 import BlogPost from "../components/BlogPost";
-import { allPosts } from "contentlayer/generated";
+import { allPosts } from "@/contentlayer/generated/Post/_index 5.mjs";
 import { InferGetStaticPropsType } from "next";
 const blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
