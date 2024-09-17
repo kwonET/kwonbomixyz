@@ -7,7 +7,7 @@ const Preview = ({ imgSource }) => {
             <Image
                 src={imgSource}
                 width={318}
-                height={118}
+                height={318}
                 alt="thumbnail"
             />
         </div>
