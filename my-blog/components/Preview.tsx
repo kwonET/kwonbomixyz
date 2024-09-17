@@ -1,13 +1,13 @@
 import React from 'react';
 import Image from 'next/image'
 
-const Preview = () => {
+const Preview = ({ imgSource }) => {
     return (
         <div>
             <Image
-                src="/IMG_2101.jpg"
-                width={618}
-                height={418}
+                src={imgSource}
+                width={318}
+                height={118}
                 alt="thumbnail"
             />
         </div>
