@@ -18,7 +18,7 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   };
   return (
     <Container customMeta={customMeta} checkedMenu='BlogDetail'>
-      <div className="m-auto mt-24 prose leading-6">
+      <div className="m-auto prose leading-6">
         <MDXComponent />
       </div>
 
