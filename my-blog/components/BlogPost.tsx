@@ -1,14 +1,31 @@
 import Link from "next/link";
+import React from "react";
 
-const BlogPost = ({ date, title, tag, slug }) => {
+interface BlogPostProps {
+  onPostFocus: () => void;
+  onPostFocusOut: () => void;
+  date: string;
+  title: string;
+  tag: string;
+  slug: string;
+}
+const BlogPost: React.FC<BlogPostProps> = ({ onPostFocus, onPostFocusOut, date, title, tag, slug }) => {
+  const handleFocus = () => {
+    onPostFocus();
+  }
+  const handleFocusOut = () => {
+    onPostFocusOut();
+  }
   return (
-    <Link href={`/blog/${slug}`} passHref legacyBehavior>
-      <a className="flex flex-row w-full justify-between my-1 hover:-translate-x-1.5">
+    <Link href={`/blog/${slug}`} passHref>
+      <div className="flex flex-row w-full justify-between hover:bg-[#F7F7F7] hover:animate-pulse cursor-pointer"
+        onMouseOut={handleFocusOut}
+        onMouseEnter={handleFocus} tabIndex={0}>
         <div className={`text-base font-medium`}>{title}</div>
         <div className="text-base font-medium text-gray-400">{date}</div>
         <div className={`text-base font-medium`}>{tag}</div>
-      </a>
-    </Link>
+      </div>
+    </Link >
   );
 };
 

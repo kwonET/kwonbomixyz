@@ -1,10 +1,10 @@
 import React from 'react';
-import Container from "../components/Container";
+import artworkSources from 'data/artworks';
+import ArtworkLayout from 'components/ArtworkLayout';
+
 const artwork = () => {
     return (
-        <Container checkedMenu='Artwork'>
-            <div className={`h-[750px] flex flex-col`}></div>
-        </Container>
+        <ArtworkLayout artworks={artworkSources} />
     );
 };
 

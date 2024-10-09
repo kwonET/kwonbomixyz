@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       containerHeight: {
-        "home-height": "128px",
+        "home-height": "136px",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -24,7 +24,7 @@ const config: Config = {
         "my-highlight": "#00FFC2",
       },
       height: {
-        lvh: "100lvh",
+        lvh: "101lvh",
       },
     },
   },
