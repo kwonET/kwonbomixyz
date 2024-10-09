@@ -1,10 +1,10 @@
 import React from 'react';
 import Container from "../components/Container";
-const resume = () => {
+const Resume = () => {
     return (
         <Container checkedMenu='Resume'>
         </Container>
     );
 };
 
-export default resume;
+export default Resume;

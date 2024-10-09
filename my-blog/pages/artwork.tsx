@@ -2,10 +2,10 @@ import React from 'react';
 import artworkSources from 'data/artworks';
 import ArtworkLayout from 'components/ArtworkLayout';
 
-const artwork = () => {
+const Artwork = () => {
     return (
         <ArtworkLayout artworks={artworkSources} />
     );
 };
 
-export default artwork;
+export default Artwork;
