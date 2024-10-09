@@ -2,7 +2,7 @@ import Container from "../components/Container";
 import BlogPost from "../components/BlogPost";
 import { allPosts } from "@/contentlayer/generated/Post/_index 5.mjs";
 import { InferGetStaticPropsType } from "next";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 const blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [selectedPost, setSelectedPost] = useState<typeof posts[0] | null>(null);
   const handleHover = (post: typeof posts[0]) => {
