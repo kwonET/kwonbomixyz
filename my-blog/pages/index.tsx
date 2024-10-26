@@ -1,7 +1,7 @@
 import Container from "../components/Container";
 import metadata from "../data/metadata";
 import RecentPosts from "../components/RecentPosts";
-import { allPosts } from "@/contentlayer/generated/Post/_index 4.mjs";
+import { allPosts } from ".contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
 
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
