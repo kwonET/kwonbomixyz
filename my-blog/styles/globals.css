@@ -1,13 +1,71 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/GothicA1-Light.woff2');
 
-@layer base {
-    html {
-        font-family: 'GothicA1-Light', 'Noto Sans KR', sans-serif;
-        font-size: 21px;
-        font-weight: 500;
-        color: #1d1d1f;
-    }
+@font-face {
+  font-family: "GothicA1-Light";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/GothicA1-Light.woff2")
+    format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* VSCode와 유사한 다크 테마 */
+pre[class*="language-"] {
+  background: #1e1e1e;
+  padding: 1em;
+  margin: 0.5em 0;
+  overflow: auto;
+  border-radius: 0.5em;
+}
+
+code[class*="language-"] {
+  color: #d4d4d4;
+}
+
+.token.comment {
+  color: #6a9955;
+}
+.token.string {
+  color: #ce9178;
+}
+.token.number {
+  color: #b5cea8;
+}
+.token.keyword {
+  color: #569cd6;
+}
+.token.function {
+  color: #dcdcaa;
+}
+.token.operator {
+  color: #d4d4d4;
+}
+.token.class-name {
+  color: #4ec9b0;
+}
+.token.property {
+  color: #9cdcfe;
+}
+
+/* 라인 넘버 스타일링 */
+.line-number::before {
+  display: inline-block;
+  width: 1rem;
+  text-align: right;
+  margin-right: 1em;
+  color: #858585;
+  content: attr(line);
+}
+
+/* 하이라이트된 라인 스타일링 */
+.highlight-line {
+  background-color: #2c2c2c;
+  display: block;
 }

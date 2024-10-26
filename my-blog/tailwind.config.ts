@@ -8,6 +8,32 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            p: {
+              marginTop: "1.5em",
+              marginBottom: "1.5em",
+            },
+            img: {
+              marginTop: "2em",
+              marginBottom: "2em",
+            },
+            h2: {
+              marginTop: "2em",
+              marginBottom: "1em",
+            },
+            h3: {
+              marginTop: "1.5em",
+              marginBottom: "0.75em",
+            },
+          },
+        },
+      },
+      fontFamily: {
+        gothic1: ["GothicA1-Light"],
+        notosans: ["Noto Sans KR"],
+      },
       containerHeight: {
         "home-height": "136px",
       },

@@ -1,5 +1,6 @@
 // contentlayer.config.ts
 import { makeSource, defineDocumentType } from "contentlayer/source-files";
+import rehypePrismPlus from "rehype-prism-plus";
 var Post = defineDocumentType(() => ({
   name: "Post",
   contentType: "mdx",
@@ -20,10 +21,30 @@ var Post = defineDocumentType(() => ({
 }));
 var contentlayer_config_default = makeSource({
   contentDirPath: "posts",
-  documentTypes: [Post]
+  documentTypes: [Post],
+  mdx: {
+    remarkPlugins: [],
+    rehypePlugins: [
+      [
+        rehypePrismPlus,
+        {
+          // 추가 기능 활성화
+          showLineNumbers: true,
+          // 줄 번호 표시
+          ignoreMissing: true,
+          // 지원하지 않는 언어 무시
+          aliases: {
+            // 언어 별칭 설정
+            js: "javascript",
+            ts: "typescript"
+          }
+        }
+      ]
+    ]
+  }
 });
 export {
   Post,
   contentlayer_config_default as default
 };
-//# sourceMappingURL=compiled-contentlayer-config-AATOYVZZ.mjs.map
+//# sourceMappingURL=compiled-contentlayer-config-6BBEDIP2.mjs.map

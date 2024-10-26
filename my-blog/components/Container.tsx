@@ -14,7 +14,7 @@ const Container = (props) => {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col h-screen overflow-hidden font-gothic1">
       <Head>
         <title>{metadata.title}</title>
         <meta content={meta.description} name="description" />
@@ -54,7 +54,7 @@ const Container = (props) => {
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto pt-[calc(118px+1rem)] pl-[120px] pr-[130px]">
+      <main className="flex-1 overflow-y-auto pt-[200px] pl-[120px] pr-[130px]">
         {props.children}
       </main>
     </div>
