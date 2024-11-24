@@ -102,17 +102,18 @@
 
 - storage 데이터를 table에 업로드하는 것은 PostgreSQL 방식으로 구현합니다. 이때 파일명을 통해 table의 column을 채우도록 자동화 코드를 추가했습니다.
 
-  ```js
-  const { data: files, error } = await supabase
-      .storage
-      .from(process.env.NEXT_PUBLIC_STORAGE_BUCKET as string)
-      .list('', {
-          limit: 10000,
-          offset: 0,
-          sortBy: { column: 'name', order: 'asc' },
-      })
 
-  ```
+```js
+const { data: files, error } = await supabase
+    .storage
+    .from(process.env.NEXT_PUBLIC_STORAGE_BUCKET as string)
+    .list('', {
+        limit: 10000,
+        offset: 0,
+        sortBy: { column: 'name', order: 'asc' },
+    })
+
+```
 
 DB가 올라와있는 storage, `NEXT_PUBLIC_STORAGE_BUCKET`에서 모든 data 리스트를 가져옵니다.
 
@@ -145,11 +146,11 @@ if (file.name.includes("-")) {
 
 - supabase는 storage와 table라는 개념을 통해 DB를 구축할 수 있게 하는데요.
 
-- storage는 컴퓨터 서버 상에 데이터를 영구적으로 보관하는 저장소 개념입니다.
+- `storage`는 컴퓨터 서버 상에 데이터를 영구적으로 보관하는 저장소 개념입니다.
 
-- table은 구성된 관계형 데이터베이스에 따라 column과 data를 가지고, API를 통해 CRUD 상호작용을 하는 데이터베이스의 단위라 할 수 있습니다.
+- `table`은 구성된 관계형 데이터베이스에 따라 column과 data를 가지고, API를 통해 CRUD 상호작용을 하는 데이터베이스의 단위라 할 수 있습니다.
 
-- 뭐랄까 storage는 올리브영의 창고에 쌓인 화장품들이고, table은 매대에 종류별로 정렬된 상품이라고 설명할 수 있겠네요..
+- 뭐랄까 storage는 `올리브영의 창고에 쌓인 화장품들`이고, table은 `매대에 종류별로 정렬된 상품`이라고 설명할 수 있겠네요..
 
 <br/>
 
@@ -169,6 +170,7 @@ if (file.name.includes("-")) {
 
 - DB 단에 저장해야할 table은 크게 3개입니다. 음절 단위로 크롭된 이미지 images, 크롭 전 간판 이미지 parent_images, 사용자 메시지로 콜라주된 collage_images입니다.
 
+<br/>
 <br/>
 
 ![gif02](https://github.com/user-attachments/assets/c497df1f-9aad-42a7-ae7c-78b012b19ec4)
@@ -299,6 +301,8 @@ for (const file of image_gallery) {
 
 - api 호출을 통해 supabase DB에 접근하고, 해당 결과값을 handler의 반환값으로 처리하게 되면 api 구현이 완료됩니다!
 
+<br/>
+
 - 클라이언트 단에서 이렇게 api를 직접 만들면서, DB table의 관계를 이해하는 게 보다 수월했습니다. 또한 typescript로 api를 만들 수 있다는 게 프론트엔드 개발자로서 매우 큰 장점으로 느껴졌습니다.
 
 <br/>
@@ -307,9 +311,9 @@ for (const file of image_gallery) {
 
 #### Image 렌더링 컴포넌트
 
-DB를 구축하고, 사용자의 입력값에 따라 크롭된 이미지를 가져오는 api도 제작했습니다. 이제는 사용자에 입력에 따라 조합된 이미지를 렌더링하는 부분이 남았군요.
+- DB를 구축하고, 사용자의 입력값에 따라 크롭된 이미지를 가져오는 api도 제작했습니다. 이제는 사용자에 입력에 따라 조합된 이미지를 렌더링하는 부분이 남았군요.
 
-해당 컴포넌트를 제작하는 데 가장 많은 수고를 들였던 것 같아요. 단순히 Image가 아닌 조합된 콜라주 형태의 Image였기 때문에 아래와 같은 부분을 고민했습니다.
+- 해당 컴포넌트를 제작하는 데 가장 많은 수고를 들였던 것 같아요. 단순히 Image가 아닌 조합된 콜라주 형태의 Image였기 때문에 아래와 같은 부분을 고민했습니다.
 
 ![image6](https://github.com/user-attachments/assets/2aae888f-92b3-4950-961b-0f86a0eefe79)
 
