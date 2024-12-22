@@ -1,0 +1,371 @@
+---
+title: "Hook 없이 React 개발을 한다면?"
+description: "Hook의 등장배경과 Hook에 대한 여러 논쟁"
+date: 2024-10-26
+tag: "react"
+---
+
+<br />
+
+오늘은 React 개발에 빼놓을 수 없는 Hook에 대한 이야기를 해보려고 합니다. 이론적인 이야기에서 벗어나, Hook이 없었다면 어떻게 개발을 했을지.
+
+그리고 어쩌다 React는 hook을 도입하게 되었는지에 대해 알아보겠습니다.
+
+<br />
+<br />
+## 1. Hook의 등장 배경
+
+![스크린샷 2024-10-26 오후 8.30.56.png](https://github.com/user-attachments/assets/beec8d07-8592-4de0-9dd4-9b49c7a98f7d)
+
+<br />
+
+Hook은 React Conf 2018에서 발표되었으며, React 16.8부터 새롭게 추가된 기능입니다.
+
+그렇다면 Hook은 어떤 이유로 등장하게 되었을까요?
+
+<br />{" "}
+
+![스크린샷 2024-10-26 오후 8.30.56.png](https://github.com/user-attachments/assets/8873b0ad-70c7-4e76-9c92-5eb2880e210b)
+
+<br />
+React는 Hook이 등장하기 전의 문제점을 3가지로 제시하는데요. 각각의 문제점을 함께
+보면서 등장 배경을 살펴보겠습니다.
+
+❗️ 참고로 이번 글은 TODO 앱 코드를 예시로 드는데요. 크게 **Hook이 없는 class 컴포넌트** vs **Hook을 활용한 함수형 컴포넌트**으로 나눠 구현 코드를 비교해보겠습니다.
+
+<br />
+<br />{" "}
+
+### 1. 컴포넌트 사이의 로직을 파악하기 어려운 HOC 패턴
+
+이전에, React는 컴포넌트 간의 재사용할 수 있는 로직을 제공하지 않았습니다. 그래서 기존에 개발자는 render props나, 고차 컴포넌트와 같은 HOC 패턴을 통해 문제를 해결해야 했습니다.
+
+그렇다면 HOC와 클래스 컴포넌트를 활용한 코드를 보겠습니다.
+<br />
+```jsx
+const withToast = (WrappedComponent) => {
+  return class extends React.Component {
+    state = { toasts: [] };
+
+    addToast = (text) => {
+      const newToast = { id: Date.now(), text, isPopup: true };
+      this.setState((prevState) => ({
+        toasts: [...prevState.toasts, newToast],
+      }));
+
+      setTimeout(() => {
+        this.setState((prevState) => ({
+          toasts: prevState.toasts.filter((toast) => toast.id !== newToast.id),
+        }));
+      }, 3000);
+    };
+
+    render() {
+      return (
+        <WrappedComponent
+          toasts={this.state.toasts}
+          addToast={this.addToast}
+          {...this.props}
+        />
+      );
+    }
+  };
+};
+```
+
+```jsx
+const withTasks = (WrappedComponent) => {
+  return class extends React.Component {
+    state = { tasks: [] };
+
+    componentDidMount() {
+      this.fetchTasks();
+    }
+
+    fetchTasks = async () => {
+      const response = await getTasks();
+      this.setState({
+        tasks: response.sort((a, b) => b.createdDate - a.createdDate),
+      });
+    };
+
+    render() {
+      return (
+        <WrappedComponent
+          tasks={this.state.tasks}
+          fetchTasks={this.fetchTasks}
+          {...this.props}
+        />
+      );
+    }
+  };
+};
+```
+
+```jsx
+class Home extends React.Component {
+  render() {
+    const { tasks, toasts, addToast } = this.props;
+    return (
+      <div>
+        {tasks.map((task) => (
+          <Task
+            key={task.id}
+            task={task}
+            isSelected={selectedTodo === task.id}
+            onClick={handleTodoClick}
+            onUpdate={this.handleTodoUpdate}
+            onDelete={this.handleTodoDelete}
+            addToast={addToast}
+          />
+        ))}
+        {toasts.map((toast) => (
+          <Toast key={toast.id} type={toast.text} />
+        ))}
+      </div>
+    );
+  }
+}
+```
+
+<br />
+위 코드를 보겠습니다. 투두 리스트 홈페이지에서 Toast를 띄우고, Task를 불러오는 로직은
+여러 번 사용될 수 있습니다. 그렇기 때문에 1) **withToast**와 2) **withTasks** 의
+로직을 재사용할 수 있도록 컴포넌트로 만듭니다.
+<br />
+<br />
+```jsx
+ export default withTasks(withToast(Home));
+  ```
+
+<br />
+최종적으로 Wrapper 형태로 만들고, 저희는 **Home**에 두 가지 로직을 활용할 수 있게 되었습니다.
+
+위에서 사용한 HOC 패턴이란, 특정 컴포넌트의 로직이 여러 컴포넌트에서 사용될 경우를 대비해서 로직을 분리한 뒤, Wrapper 형태로 감싸 하나의 페이지 컴포넌트를 구축하는 것을 말합니다.
+
+하지만, 반복되는 로직을 여러 계층을 통해 전달하는 이러한 방법엔 문제가 존재하는데요. 바로 래퍼 지옥 (Wrapper Hell)입니다. 재사용되는 로직을 Wrapper 형태로 둘러싸는데, 만약 이 개수가 늘어나는 경우 아래와 같은 최악의 중첩 형태가 될 수도 있습니다.
+
+이는 하나의 페이지에서 사용된 로직을 찾기 위해 수 많은 계층을 검색해야하기 때문에, 가독성이 매우 안 좋습니다. 또한 유지보수적인 측면에서도 로직을 파악할 수 어려울 수 있겠네요.
+
+<br />
+![스크린샷 2024-10-26 오후 8.30.56.png](https://github.com/user-attachments/assets/314c6fd7-23d3-41a1-a7a9-02569dcfb08f)
+
+<br />{" "}
+
+이러한 복잡한 형태의 재사용 구조를 해결하기 위해, 재사용되는 로직을 상태로 추상화하는 Hook이 등장하게 되었습니다. 이를 통해 여러 계층에 걸친 복잡한 변화 없이 상태 관련 로직을 재사용할 수 있게 되었습니다.
+
+```jsx
+const Home = () => {
+  const [todoList, setTodoList] = useState([]);
+  const [toastPopup, setToastPopup] = useState([]);
+
+  const fetchTasks = useCallback(async () => {
+    const response = await getTasks();
+    setTodoList(response.sort((a, b) => b.createdDate - a.createdDate));
+  }, []);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
+
+  const addToast = useCallback((text) => {
+    const newToast = { id: Date.now(), text, isPopup: true };
+    setToastPopup((prevPopups) => [...prevPopups, newToast]);
+
+    // 3초 후에 해당 토스트를 제거
+    setTimeout(() => {
+      setToastPopup((prevPopups) =>
+        prevPopups.filter((popup) => popup.id !== newToast.id)
+      );
+    }, 3000);
+  }, []);
+
+  return (
+    <div>
+      <div>
+        {todoList.map((todo) => (
+          <Todo key={todo.id} task={todo} />
+        ))}
+      </div>
+      <div>
+        {toastPopup.map((toast, index) => (
+          <Toast toastType={toast.text} key={index} onClick={addToast} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Home;
+```
+
+위 코드는 훅을 이용한 익숙한 형태의 구조입니다. 위의 HOC 패턴과 다르게 로직을 하나의 파일 안에 관리함으로써, 코드 개별의 상태를 파악하기 더 쉬워졌네요.
+
+<br />
+<br />
+### 2. 복잡한 생명 주기 메서드
+
+![스크린샷 2024-10-26 오후 8.30.33.png](https://github.com/user-attachments/assets/b80b208d-5f31-4a50-81ee-fc57dd8ce197)
+
+<br />
+우리는 때로 사이드 이펙트를 일으키는, 즉 다른 컴포넌트에 영향을 주는 데이터를 로딩하고 DOM을 조작하는 작업을 하게 됩니다. 이러한 작업을 생명 주기 메서드를 통해 관리하는데요.
+
+Hook이 탄생하기 이전에는 3가지 생명 주기 메서드를 활용해 사이드 이펙트를 관리했습니다. 아래 코드처럼 말이죠.
+
+<br />
+```jsx
+class ComplexComponent extends React.Component {
+  state = { user: null, posts: [] };
+
+  componentDidMount() {
+    this.fetchUser();
+    this.fetchPosts();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.userId !== prevProps.userId) {
+      this.fetchUser();
+      this.fetchPosts();
+    }
+  }
+
+  fetchUser() {
+    // 사용자 데이터 가져오기
+  }
+
+  fetchPosts() {
+    // 게시물 데이터 가져오기
+  }
+
+  render() {
+    // 렌더링 로직
+  }
+}
+```
+
+<br />
+위는 컴포넌트가 `생성(componentDidMount)`되고, `업데이트(componentDidUpdate)` 되고,
+`제거(componentWillUnmount)`할 때 특정한 로직을 수행하게 하기 위해 생명 주기를 활용한
+코드 입니다.
+
+하지만 여기서 **사용자의 데이터를 가져오고(fetchUser)**, **게시물을 가져오는 로직(fetchPosts)** 이 공통된 생명 주기 안에서 관리되기 때문에, 관련 없는 코드가 섞이는 문제를 발견할 수 있죠.
+
+그렇다면, useEffect Hook을 사용해 관심사를 분리해보겠습니다.
+
+<br />{" "}
+
+```jsx
+function useUser(userId) {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    // 사용자 데이터 가져오기
+  }, [userId]);
+  return user;
+}
+
+function usePosts(userId) {
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    // 게시물 데이터 가져오기
+  }, [userId]);
+  return posts;
+}
+```
+
+<br />
+useEffect hook을 통해 생명 주기 단위가 아닌, 기능 별로 렌더링 주기를 관리할 수 있게 되었습니다. 이로써 하나의 함수 안에 하나의 기능을 담당하게 하는 무결성을 지킬 수 있게 된거죠!
+
+<br />
+<br />
+### 3. Class 개념은 복잡해
+
+class를 통해 click 이벤트를 감지하는 함수를 만들어 state를 관리하는 코드를 짜보겠습니다.
+
+```jsx
+class Example extends React.Component {
+  handleClick() {
+    this.setState({ clicked: true }); // 오류: Cannot read property 'setState' of undefined
+  }
+
+  render() {
+    return <button onClick={this.handleClick}>Click me</button>;
+  }
+}
+```
+
+위 코드에서 `handleClick` 메서드 안에서 this를 통해 setState에 접근하려 했지만 오류가 나는 것을 볼 수 있는데요. 이는 이벤트 핸들러 메서드 안에서 this를 통해 setState를 접근할 수 없기 때문인데요.
+
+this가 각각 어떻게 바인딩하는지를 알아보겠습니다.
+
+class 안의, 전역 상황에서는 this는 class 자체를 바인딩하고 있기 때문에 setState에 접근할 수 있습니다.
+
+<br />{" "}
+<br />
+
+반면, 이벤트 핸들러 메서드 안에서는 this는 class 인스턴스가 아닌 이벤트 핸들러를 바인딩하고 있기 때문에 this를 통해 class 인스턴스인 setState에 접근할 수 없게 됩니다.
+
+위 오류를 해결하기 위해서는 직접 생성자에서 메서드를 바인딩해주거나 화살표 함수를 사용해야합니다. 아래처럼 말이죠.
+
+<br />
+```jsx
+class Example extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick() {
+    this.setState({ clicked: true }); // 정상 작동
+  }
+
+  render() {
+    return <button onClick={this.handleClick}>Click me</button>;
+  }
+}
+```
+
+<br />
+하지만 이렇게 직접 메서드를 생성자에서 바인딩하게 되면, 아래처럼 방대한 양의 코드를 마주치게 될 수도 있습니다. 상상만 해도 손가락이 아프네요 🥲
+
+<br />
+```jsx
+class ConfusingHome extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todoList: [],
+      selectedTodo: null,
+      isOldest: true,
+      toastPopup: []
+    };
+    this.handleInputComplete = this.handleInputComplete.bind(this);
+    this.handleTodoClick = this.handleTodoClick.bind(this);
+    this.handleTodoUpdate = this.handleTodoUpdate.bind(this);
+    this.handleTodoDelete = this.handleTodoDelete.bind(this);
+    this.handleTodoAllDelete = this.handleTodoAllDelete.bind(this);
+    this.handleOrderChange = this.handleOrderChange.bind(this);
+    this.addToast = this.addToast.bind(this);
+  }
+```
+
+이러한 혼잡한 Class에서 벗어나, Hook은 Class 없이 React 기능을 사용하는 방법을 제시합니다. 오히려 함수에 더 가까운 React 컴포넌트를 명령형 코드로 간결하게 사용할 수 있게 되었습니다.
+
+<br />
+<br />
+## 2. Hook은 완벽할까?
+
+React 16.8에 도입된 이후로, Hook은 함수형 컴포넌트에서 빼놓을 수 없는 존재가 되었습니다. 하지만 많은 개발자 사이에서 Hook은 뜨거운 감자인데요. [아래 글](https://ui.toast.com/posts/ko_20200922)을 통해서 React가 제시한 3가지 문제에 대한 Hook의 장점을 반박하는 내용을 확인할 수 있습니다.
+
+![스크린샷 2024-10-26 오후 8.31.39.png](https://github.com/user-attachments/assets/67694891-9088-4f60-9186-8c8b3c17fdb9)
+또한 React Pain Point 설문에서 볼 수 있듯이, 많은 사람이 useEffect, useCallback과 같은 Hook에 불만을 가지고 있는 걸 알 수 있는데요.
+
+<br />
+Hook에 대해서 생각해볼 점은 다양하게 있을 것 같습니다.
+
+- useEffect는 생명 주기를 과도하게 추상화하기 때문에 오히려 생명 주기적인 흐름을 파악하기 어려워졌다는 점
+- useEffect의 과도한 리렌더링
+- 필요하지 않은 api 혹은 Hook의 그 외 함수까지 불러와 사용하게 된다는 점
+- 정립된 class 개념을 기피하는 지나친 함수형 컴포넌트 추구
+
+다양한 쟁점이 얽혀있는 문제이지만, 개발자의 입장에서 최대한 효율적으로 구현할 수 있도록 Hook을 잘 활용하는 것도 필요할 것 같습니다.
+
+그럼 이렇게 Hook의 등장배경에 관한 글을 마치겠습니다.
