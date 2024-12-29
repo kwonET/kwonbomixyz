@@ -13,7 +13,7 @@ const components: MDXComponents = {
     <span className="block my-6">
       <img
         {...props}
-        className=" w-full"
+        className="w-full "
         style={{ maxWidth: '100%', height: 'auto' }}
       />
     </span>
@@ -29,7 +29,7 @@ const components: MDXComponents = {
 
     return (
       <p
-        className="mt-6 mb-4 text-lg leading-7 text-slate-700 dark:text-slate-300"
+        className="mt-6 mb-4 text-base md:text-lg leading-7 text-slate-700"
         {...props}
       >
         {children}
@@ -40,28 +40,23 @@ const components: MDXComponents = {
   // 제목들
   h1: (props) => (
     <h1
-      className="mt-16 mb-4 text-4xl font-extrabold text-slate-900  tracking-tight"
+      className="mt-16 mb-4 text-4xl font-extrabold text-slate-900 tracking-tight"
       {...props}
     />
   ),
   h2: (props) => (
     <h2
-      className="mt-12 mb-4 text-2xl font-bold text-slate-900  tracking-tight"
+      className="mt-12 mb-4 text-2xl font-bold text-slate-900 tracking-tight"
       {...props}
     />
   ),
   h3: (props) => (
     <h3
-      className="mt-8 mb-4 text-xl font-semibold text-slate-900  tracking-tight"
+      className="mt-8 mb-4 text-xl font-semibold text-slate-900 tracking-tight"
       {...props}
     />
   ),
-  h4: (props) => (
-    <h3
-      className="mt-8 mb-4 text-sm font-light  tracking-tight bg-my-highlight inline-block"
-      {...props}
-    />
-  ),
+
   // 코드 블록
   pre: (props) => (
     <pre className="my-6 rounded-lg bg-slate-900 p-4 text-sm leading-6 text-slate-50 overflow-x-auto" {...props} />
@@ -70,24 +65,24 @@ const components: MDXComponents = {
   // 인라인 코드
   code: (props) => (
     <code
-      className="px-1.5 py-0.5 mx-0.5 rounded-md bg-slate-100 dark:bg-slate-800 
-        text-slate-900 dark:text-slate-200 font-mono text-[0.875em]"
+      className="px-1.5 py-0.5 mx-0.5 rounded-md bg-slate-100 
+        text-slate-900 font-mono text-[0.875em]"
       {...props}
     />
   ),
 
   // 리스트
   ul: (props) => (
-    <ul className="my-6 ml-6 list-disc text-lg text-slate-700  space-y-2" {...props} />
+    <ul className="my-6 ml-2 list-disc  text-base md:text-lg  text-slate-700 space-y-2" {...props} />
   ),
   ol: (props) => (
-    <ol className="my-6 ml-6 list-decimal text-lg text-slate-700  space-y-2" {...props} />
+    <ol className="my-6 ml-2 list-decimal  text-base md:text-lg  text-slate-700 space-y-2" {...props} />
   ),
 
   // 블록쿼트
   blockquote: (props) => (
     <blockquote
-      className="my-8 pl-4 border-l-2 border-slate-300 dark:border-slate-700 
+      className="my-8 border-l-2 border-slate-300
         text-lg italic text-slate-700"
       {...props}
     />
@@ -96,7 +91,7 @@ const components: MDXComponents = {
   // 링크
   a: (props) => (
     <a
-      className="font-medium text-sky-500 hover:text-sky-600 "
+      className="font-medium text-sky-500 hover:text-sky-600"
       target="_blank"
       rel="noopener noreferrer"
       {...props}
@@ -120,8 +115,8 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <Container customMeta={customMeta} checkedMenu='BlogDetail'>
-      <article className="mx-auto px-4 lg:px-0 my-16 max-w-3xl font-notosans">
-        <div className="mdx-content prose prose-slate lg:prose-lg 
+      <article className="mx-auto lg:px-0 my-16 max-w-3xl font-notosans">
+        <div className="mdx-content prose prose-slate lg:prose-lg
           prose-headings:font-bold prose-headings:tracking-tight
           prose-pre:bg-slate-900 prose-pre:shadow-lg
           max-w-none">
