@@ -87,8 +87,8 @@ const components: MDXComponents = {
   // 블록쿼트
   blockquote: (props) => (
     <blockquote
-      className="my-8 pl-6 border-l-2 border-slate-300 dark:border-slate-700 
-        text-lg italic text-slate-700 dark:text-slate-300"
+      className="my-8 pl-4 border-l-2 border-slate-300 dark:border-slate-700 
+        text-lg italic text-slate-700"
       {...props}
     />
   ),
