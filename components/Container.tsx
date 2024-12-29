@@ -27,7 +27,7 @@ const Container = (props) => {
             <span className="ml-2 md:ml-6 mt-6 text-lg md:text-xl font-medium">{metadata.title}</span>
           </div>
           <div className="max-w-screen h-px bg-black -mt-2"></div>
-          <div className={`flex relative ${props.checkedMenu === 'Blog' ? 'h-[418px]' : 'h-[theme(containerHeight.home-height)]'} w-full`}>
+          <div className={`hidden md:flex relative ${props.checkedMenu === 'Blog' ? 'h-[418px]' : 'h-[theme(containerHeight.home-height)]'} w-full`}>
             <Nav checkedMenu={props.checkedMenu} isMenu={true} />
             <div className='hidden md:block'>
               <FullHeightLine /></div>
@@ -39,7 +39,7 @@ const Container = (props) => {
                 </>
               )}
               {(props.checkedMenu === "Blog" && (props.selectedPost)) && (
-                <div className='flex h-[418px]'>
+                <div className='hidden md:flex h-[418px]'>
                   <div className="w-1/2 bg-[#D9D9D9]"></div>
                   <div className='bg-black w-[1px] h-[100%]'></div>
                   <div className="w-1/2 p-4 flex flex-col-reverse">
@@ -51,14 +51,13 @@ const Container = (props) => {
               )}
             </div>
             <div className='hidden md:block'>
-
               <FullHeightLineMargin /></div>
           </div>
           <div className="max-w-screen h-px bg-black"></div>
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto pt-[200px] px-12 md:pl-[120px] md:pr-[130px]">
+      <main className="flex-1 overflow-y-auto pt-2 md:pt-[200px] px-12 md:pl-[120px] md:pr-[130px]">
         {props.children}
       </main>
     </div>
