@@ -40,25 +40,25 @@ const components: MDXComponents = {
   // 제목들
   h1: (props) => (
     <h1
-      className="mt-16 mb-4 text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight"
+      className="mt-16 mb-4 text-4xl font-extrabold text-slate-900  tracking-tight"
       {...props}
     />
   ),
   h2: (props) => (
     <h2
-      className="mt-12 mb-4 text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight"
+      className="mt-12 mb-4 text-2xl font-bold text-slate-900  tracking-tight"
       {...props}
     />
   ),
   h3: (props) => (
     <h3
-      className="mt-8 mb-4 text-xl font-semibold text-slate-900 dark:text-slate-100 tracking-tight"
+      className="mt-8 mb-4 text-xl font-semibold text-slate-900  tracking-tight"
       {...props}
     />
   ),
   h4: (props) => (
     <h3
-      className="mt-8 mb-4 text-sm font-light dark:text-slate-100 tracking-tight bg-my-highlight inline-block"
+      className="mt-8 mb-4 text-sm font-light  tracking-tight bg-my-highlight inline-block"
       {...props}
     />
   ),
@@ -78,10 +78,10 @@ const components: MDXComponents = {
 
   // 리스트
   ul: (props) => (
-    <ul className="my-6 ml-6 list-disc text-lg text-slate-700 dark:text-slate-300 space-y-2" {...props} />
+    <ul className="my-6 ml-6 list-disc text-lg text-slate-700  space-y-2" {...props} />
   ),
   ol: (props) => (
-    <ol className="my-6 ml-6 list-decimal text-lg text-slate-700 dark:text-slate-300 space-y-2" {...props} />
+    <ol className="my-6 ml-6 list-decimal text-lg text-slate-700  space-y-2" {...props} />
   ),
 
   // 블록쿼트
@@ -96,7 +96,7 @@ const components: MDXComponents = {
   // 링크
   a: (props) => (
     <a
-      className="font-medium text-sky-500 hover:text-sky-600 dark:text-sky-400"
+      className="font-medium text-sky-500 hover:text-sky-600 "
       target="_blank"
       rel="noopener noreferrer"
       {...props}
@@ -121,7 +121,7 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Container customMeta={customMeta} checkedMenu='BlogDetail'>
       <article className="mx-auto px-4 lg:px-0 my-16 max-w-3xl font-notosans">
-        <div className="mdx-content prose prose-slate lg:prose-lg dark:prose-invert 
+        <div className="mdx-content prose prose-slate lg:prose-lg 
           prose-headings:font-bold prose-headings:tracking-tight
           prose-pre:bg-slate-900 prose-pre:shadow-lg
           max-w-none">
