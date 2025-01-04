@@ -52,7 +52,7 @@ const components: MDXComponents = {
   ),
   h3: (props) => (
     <h3
-      className="mt-8 mb-4 text-xl font-semibold text-slate-900 tracking-tight"
+      className="mt-8 mb-4 text-xl font-semibold text-slate-900 inline-block bg-my-highlight tracking-tight"
       {...props}
     />
   ),
@@ -115,11 +115,23 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <Container customMeta={customMeta} checkedMenu='BlogDetail'>
-      <article className="mx-auto lg:px-0 my-16 max-w-3xl font-notosans">
+      <article className="mx-auto lg:px-0 my-16 max-w-3xl font-pretendard">
         <div className="mdx-content prose prose-slate lg:prose-lg
           prose-headings:font-bold prose-headings:tracking-tight
           prose-pre:bg-slate-900 prose-pre:shadow-lg
           max-w-none">
+          <div className="flex flex-col md:hidden mb-8 px-4">
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight my-3 leading-snug  font-gothic2">{post.title}</h1>
+            <div className="flex items-center space-x-2 text-sm text-slate-600  font-gothic1">
+              <time dateTime={post.date}>{customMeta.date}</time>
+              {post.tag && (
+                <>
+                  <span className="text-slate-400">•</span>
+                  <span>{post.tag}</span>
+                </>
+              )}
+            </div>
+          </div>
           <MDXComponent components={components} />
         </div>
       </article>

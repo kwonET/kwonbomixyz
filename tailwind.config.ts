@@ -32,7 +32,9 @@ const config: Config = {
       },
       fontFamily: {
         gothic1: ["GothicA1-Light"],
+        gothic2: ["GothicA1-Bold"],
         notosans: ["Noto Sans KR"],
+        pretendard: ["Pretendard"],
       },
       containerHeight: {
         "home-height": "136px",

@@ -1,7 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@font-face {
+  font-family: "GothicA1-Bold";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/GothicA1-Bold.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
 @font-face {
   font-family: "GothicA1-Light";
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/GothicA1-Light.woff2")
