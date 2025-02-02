@@ -1,0 +1,203 @@
+---
+title: "무심코 지나친 npm run dev, 어떻게 로컬 서버에서 브라우저를 띄울까?"
+description: "nextjs의 개발 서버 동작 원리를 파헤쳐보자."
+date: 2025-02-02
+tag: "nextjs, 서버, 클라이언트"
+---
+
+next.js 프레임워크를 사용하는 프론트엔드 개발자라면, 로컬 개발 환경을 통해 수십번씩 작업을 확인할텐데요. 이때 이용하는 것이 바로 ‘npm run dev’라는 명령어입니다. 
+
+![Image](https://github.com/user-attachments/assets/9b3d93c0-6e0a-4890-88e2-5b30c4405a49)
+
+저는 오늘 무심코 쳤던 위 명령어가 next.js 환경에서 어떻게 동작해, 로컬 서버의 browser에 어떻게 띄워지는 지에 대해 알아보려고 합니다. :)
+
+목차는 아래와 같습니다.
+
+1. 로컬 서버와 브라우저는 서버와 클라이언트로 매핑할 수 있다
+2. 왜 3000번 포트를 사용할까?
+3. npm run dev와 package.json의 관계
+4. 클라이언트와 서버의 소통에 빼놓을 수 없는 캐싱, HMR
+
+---
+
+## 로컬 서버와 브라우저는 서버와 클라이언트로 매핑할 수 있다
+
+우리는 개발 서버를 구동하고, browser를 통해 파일 실행 결과를 확인할 수 있습니다. 간단하게 생각해보면, 내 컴퓨터가 로컬 서버가 되고, browser가 클라이언트라고 생각할 수 있겠습니다.
+
+그렇다면 어떤 동작 과정으로 클라이언트와 서버의 소통이 이루어지는지 살펴보겠습니다.
+
+아래 과정을 거쳐 전반적으로 로컬 서버가 동작합니다.
+
+![Image](https://github.com/user-attachments/assets/2e97c18d-2f26-4152-a1b0-218eccb1f879)
+
+
+[요청]
+
+1. browser는 초기 페이지에 관한 파일, 혹은 서버와의 interaction을 위한 내용(Websocket, HMR 등)을 요청합니다.
+    1. 어떤 내용을 요청할까요? 아래 Chrome DevTools Network 탭에서 볼 수 있는 요청을 통해 다양한 파일을 요청하는 것을 유추할 수 있겠습니다.
+    
+    ![Image](https://github.com/user-attachments/assets/0c2c9f4b-5b0f-4868-8f0d-9a9d49b2bb83)
+    
+
+[응답]
+
+1. 로컬 서버에서는 해당 요청에 대해 node.js 기반으로 서버를 초기화 및 구동합니다.
+2. 캐싱 메커니즘을 이용해 메모리에서 아래와 같은 캐싱 과정을 처리합니다.
+    1. 번들링
+    2. websocket 
+    3. updata strategy
+3. 추가적으로 아래와 같은 부가적인 과정을 처리합니다.
+    1. api를 통한 db 접근
+    2. 파일 시스템을 이용한 페이지 라우팅 처리
+4. 1,2,3 과정을 거친 클라이언트 단의 요청사항을 응답으로 넘겨줌으로써 마무리합니다.
+
+---
+
+## 왜 3000번 포트를 사용할까?
+
+우리는 `npm run dev` 라는 명령어를 통해 개발 서버를 동작시킵니다. 그리고 기본으로 설정된 포트 번호를 통해 로컬 서버에 접속하는데요. 
+
+익숙한 포트번호는 바로 3000 일 것입니다. 무심코 사용한 3000의 의미를 파헤쳐 볼까요?
+
+<br/>
+
+- 들어가기 전에, 프로토콜은 서버 간에 통신을 하기 위해 필요한 통신규약입니다. nextjs에서는 개발 서버와 브라우저가 소통하기 위한 통신 규약으로서 웹과 관련한 HTTP를 사용하는 것이죠.
+- 또한 포트 번호란, 수많은 통신 중에 특정 경로를 지정하는 용도로 사용됩니다. 웹서버와 소통하는 프로토콜 요청은 많을 수 있으니, 서버 간의 더 정확한 경로를 지정해주는 것이죠.
+- 프로토콜은 아파트의 동, 포트는 호수라고 생각하면 됩니다. 저희는 브라우저라는 친구 집을 찾아 가기 위해 서버에게 동 호수(프로토콜, 포트)를 지정해 주는 것이죠.
+<br/>
+
+우선, 우리는 HTTP 프로토콜을 사용합니다. 
+
+HTTPS는 HTTP에서 암호화를 추가한 프로토콜인데요. 개발 환경은 보안되어 있는 특수한 환경이기 때문에, 따로 암호화된 통신 규약을 쓸 필요가 없죠. 따라서 HTTPS가 아닌 HTTP를 씁니다.
+
+<br/>
+
+그렇다면 왜 3000번일까요?
+
+기본적으로 HTTP는 80번 포트를 사용하지만, 시스템 예약 포트를 회피하여 개발 서버를 구동합니다. 따라서 사용자 영역인 (1025-65535) 포트 중에 고른 것이고, Node.js와 React의 관례상 3000번을 사용한다고 하네요.
+
+하지만 아래처럼 다른 포트번호로 변경해줄 수도 있습니다 :) 
+
+```jsx
+# 개발 서버 포트 변경
+"dev": "next dev -p 4000"
+```
+
+---
+
+## npm run dev와 package.json의 관계
+
+여러분이 ‘npm run dev’를 쳤다고 가정해봅시다. 이젠, next.js의 내부 동작 과정을 하나하나 살펴보겠습니다. (물론 yarn과 같은 다른 package manager를 이용해도 되지만, npm에 맞춰 설명해보겠습니다)
+
+```jsx
+  "scripts": {
+    "dev": "next dev", // next.js의 개발 서버를 시작
+    "build": "next build", // 프로덕션용 application 빌드
+    "postbuild": "next-sitemap", // SEO 용도
+    "start": "next start", // 빌드된 application 시작
+    "lint": "next lint" // eslint를 활용한 코드 검사
+  },
+```
+
+위 코드는 package.json의 scripts 부분입니다. 해당 파일이 어떻게 명령어에 맞추어 동작하는지 살펴보죠.
+
+1. package.json의 scripts 객체에서 dev라는 키를 찾습니다.
+2. 해당 value인 next dev를 찾아 해당 명령어를 실행합니다.
+3. node_modules/.bin 디렉토리에서 next 실행 파일(next dev)을 찾아서 구동합니다.
+    - 여기서 next.js의 내부 서버는 node.js를 통해 동작합니다. 또한 해당 과정에는 compiler와 bundling process가 포함됩니다.
+
+즉, package.json의 scripts를 통해 dev라는 간단한 명령어로 특정 실행 파일을 실행시키도록 하는 alias (별칭) 역할을 한다고 볼 수 있겠네요. 
+<br/>
+만약 내장된 module의 실행 파일이 아닌 `자체 제작 server 설정 파일`을 실행한다면 어떻게 될까요?
+
+아래는 자체 제작 server인 server.ts 파일입니다.
+
+```jsx
+import { createServer } from 'http'
+import { parse } from 'url'
+import next from 'next'
+ 
+const port = parseInt(process.env.PORT || '3000', 10)
+const dev = process.env.NODE_ENV !== 'production'
+const app = next({ dev })
+const handle = app.getRequestHandler()
+ 
+app.prepare().then(() => {
+  createServer((req, res) => {
+    const parsedUrl = parse(req.url!, true)
+    handle(req, res, parsedUrl)
+  }).listen(port)
+ 
+  console.log(
+    `> Server listening at http://localhost:${port} as ${
+      dev ? 'development' : process.env.NODE_ENV
+    }`
+  )
+})
+```
+
+위를 통해 서버를 구동시키는 과정을 엿볼 수 있네요. 
+
+바로 node.js의 역할인 parsing을 포함한 compling, bundling process의 내용을 담고 있습니다.
+<br/>
+그렇다면 1) `custom server`를 실행하는 alias 명령어와, 2) `standard next server`를 실행하는 alias 명령어를 비교해봅시다!
+
+```jsx
+{
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js"
+  }
+}
+```
+
+`custom server` 파일을 실행하기 위해 node 실행 명령어로 직접 파일을 명시해준 걸 알 수 있습니다.
+
+```jsx
+ "scripts": {
+    "dev": "next dev",
+ }
+```
+
+위에서 살펴본 대로, 자체 제작 서버를 사용하지 않고 `standard next server`를 사용하면 node.js의 기본 실행파일을 실행하게 됩니다.
+
+---
+
+## 클라이언트와 서버의 소통에 빼놓을 수 없는 캐싱, HMR
+
+nextjs는 캐싱 방식으로 HMR을 사용합니다.
+
+HMR이란, Hot Module Replacement로, full page refresh 없이 필요한 부분만 browser update하는 전략입니다.
+<br/>
+HMR의 동작 과정의 대표적인 키워드를 살펴보면서 어떤 식으로 캐싱을 하는지 살펴보겠습니다.
+
+![Image](https://github.com/user-attachments/assets/287f69d4-52ed-4c75-a42d-4f19903d52ec)
+
+
+- Bundle
+    - html, javascript의 무수한 파일을 하나로 번들링해 관리합니다.
+    - realtime update 시 빠른 업데이트가 가능하다는 장점이 있습니다.
+- Websocket
+    - 서버와 클라이언트 사이 소통을 할 때 사용하는 방식입니다. (서버와 클라이언트 사이의 중개자같은 역할이랄까요.)
+    - 서버가 새로운 버전의 module을 만들면, 이를 클라이언트에게 전달하기 위해 Websocket에게 신호를 전달합니다.
+- Update Strategy, Fast Refresh
+    - next.js는 효율적인 update 전략으로서, update가 필요한 component만 바꿉니다.
+    - 특히 fast refresh를 사용해서, update 시에도 component state를 유지하는데요. 이를 통해 현재 페이지는 update 도중에 변경되지 않도록 유지하는 효율적인 전략을 사용합니다.
+<br/>
+브라우저의 효율적인 상태 유지를 위해, 
+
+1) Bundle을 통해 하나의 단위로 빠르게 업데이트하고, 
+
+2) Websocket을 통해 서버와 클라이언트의 효율적인 소통을 하며, 
+
+3) Fast Refresh를 통해 변경사항이 있는 모듈을 변경함과 동시에 현재 페이지의 component 상태는 유지하는 전략을 사용한다는 것을 알 수 있었습니다.
+
+---
+
+위 포스팅을 통해 단순히 실행시킨 개발 서버의 동작 원리를 알 수 있는 기회였습니다. 브라우저와 로컬 서버의 통신에 대한 궁금증을 풀 수 있는 시간이 된 것 같아요!
+
+출처
+
+- https://www.youtube.com/watch?v=0m1NGdOZpsI
+- https://nextjs.org/docs/pages/building-your-application/configuring/custom-server
