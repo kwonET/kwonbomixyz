@@ -4,14 +4,19 @@ import Head from "next/head";
 import Nav from "./Nav";
 import FullHeightLine from "./FullHeightLine";
 import FullHeightLineMargin from "./FullHeightLineMargin";
+import { useRouter } from 'next/router';
 
 const Container = (props) => {
+  const router = useRouter()
   const meta = {
     title: metadata.title,
     description: metadata.description,
     author: metadata.author,
     ...props.customMeta,
   };
+  const handleClick = () => {
+    router.replace('/')
+  }
 
   return (
     <div className="flex flex-col h-screen overflow-hidden font-gothic1">
@@ -24,7 +29,7 @@ const Container = (props) => {
       <header className="fixed top-0 left-0 right-0 bg-white z-50">
         <div className="flex flex-col p-1 -mt-1">
           <div className="flex flex-row items-center">
-            <span className="ml-2 md:ml-6 mt-6 text-lg md:text-xl font-medium">{metadata.title}</span>
+            <span className="ml-2 md:ml-6 mt-6 text-lg md:text-xl font-medium" onClick={handleClick}>{metadata.title}</span>
           </div>
           <div className="max-w-screen h-px bg-black -mt-2"></div>
           <div className={`hidden md:flex relative ${props.checkedMenu === 'Blog' ? 'h-[418px]' : 'h-[theme(containerHeight.home-height)]'} w-full`}>
@@ -57,7 +62,7 @@ const Container = (props) => {
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto pt-2 md:pt-[200px] px-12 md:pl-[120px] md:pr-[130px]">
+      <main className="flex-1 overflow-y-auto pt-2 md:pt-[200px] px-12 md:pl-[120px] md:pr-[120px]">
         {props.children}
       </main>
     </div>
