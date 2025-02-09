@@ -7,9 +7,10 @@ import P5jsContainer from "@/components/P5js/P5jsContainer";
 
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <Container checkedMenu={'Home'}><P5jsContainer />
+    <Container checkedMenu={'Home'}>
+      <P5jsContainer />
       {/* <div className={`relative h-[500px]`}>      </div> */}
-    </Container>
+    </Container >
   );
 };
 export const getStaticProps = async () => {
