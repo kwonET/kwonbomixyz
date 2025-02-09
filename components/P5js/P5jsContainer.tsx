@@ -4,23 +4,34 @@ import type p5Types from 'p5'
 import { setup, draw, windowResized, mousePressed } from './sketch'
 
 // react-p5를 import하는 방식 수정
-const Sketch = dynamic(() => import('react-p5'), {
+const Sketch = dynamic(() => import('react-p5').then((mod) => {
+    return mod.default || mod
+}), {
     ssr: false,
     loading: () => <div>Loading...</div>
 })
 
 export default function P5jsContainer() {
-    // props 타입 정의
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+        return () => setMounted(false)
+    }, [])
+
+    // 컴포넌트가 마운트되기 전에는 렌더링하지 않음
+    if (!mounted) return null
+
+    // props 객체 정의
     const sketchProps = {
-        setup: (p5: p5Types, canvasParentRef: Element) => setup(p5, canvasParentRef),
-        draw: (p5: p5Types) => draw(p5),
-        windowResized: (p5: p5Types) => windowResized(p5),
-        mousePressed: (p5: p5Types) => mousePressed(p5)
+        setup: setup,
+        draw: draw,
+        windowResized: windowResized,
+        mousePressed: mousePressed
     }
 
     return (
         <div className="w-full h-screen">
             <Sketch {...sketchProps} />
-        </div>
-    )
+        </div>)
 }

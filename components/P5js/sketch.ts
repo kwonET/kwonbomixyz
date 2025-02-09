@@ -7,8 +7,11 @@ let canvasHeight = 0;
 let cellSize = 15;
 let columnCount = 0;
 let rowCount = 0;
-let currentCells: number[][] = [];
-let nextCells: number[][] = [];
+type Cell = 0 | 1;
+type Grid = Cell[][];
+
+let currentCells: Grid = [];
+let nextCells: Grid = [];
 
 export const setup = (p5: p5Types, canvasParentRef: Element) => {
   // Find the parent Element's size to create a Canvas that size
