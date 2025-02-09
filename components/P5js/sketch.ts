@@ -2,24 +2,26 @@ import p5Types from "p5";
 
 let canvasParent: Element;
 let parentStyle: CSSStyleDeclaration;
-let canvasWidth: number, canvasHeight: number;
+let canvasWidth = 0;
+let canvasHeight = 0;
 let cellSize = 15;
-let columnCount;
-let rowCount;
-let currentCells = [];
-let nextCells = [];
+let columnCount = 0;
+let rowCount = 0;
+let currentCells: number[][] = [];
+let nextCells: number[][] = [];
 
 export const setup = (p5: p5Types, canvasParentRef: Element) => {
   // Find the parent Element's size to create a Canvas that size
   canvasParent = canvasParentRef;
-  if (canvasParentRef.parentElement) {
-    parentStyle = getComputedStyle(canvasParentRef.parentElement);
-  } else {
-    parentStyle = getComputedStyle(canvasParentRef);
-  }
+
+  const parent = canvasParentRef.parentElement || canvasParentRef;
+  parentStyle = getComputedStyle(parent);
+
   canvasWidth = parseInt(parentStyle.width);
   canvasHeight = parseInt(parentStyle.height);
-  p5.createCanvas(canvasWidth, canvasHeight).parent(canvasParentRef);
+
+  const canvas = p5.createCanvas(canvasWidth, canvasHeight);
+  canvas.parent(canvasParentRef);
 
   // Set simulation framerate to 10 to avoid flickering
   p5.frameRate(5);
