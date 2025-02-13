@@ -1,4 +1,4 @@
-// import p5Types from "p5";
+import P5 from "p5";
 
 let canvasParent: Element;
 let parentStyle: CSSStyleDeclaration;
@@ -15,7 +15,7 @@ let nextCells: Grid = [];
 
 let slider;
 
-export const setup = (p5: any, canvasParentRef: Element) => {
+export const setup = (p5: P5, canvasParentRef: Element) => {
   // Find the parent Element's size to create a Canvas that size
   canvasParent = canvasParentRef;
 
@@ -53,7 +53,7 @@ export const setup = (p5: any, canvasParentRef: Element) => {
   p5.loop(); // noLoop() 대신 loop()로 변경
 };
 
-export const draw = (p5: p5Types) => {
+export const draw = (p5: P5) => {
   generate();
   for (let column = 0; column < columnCount; column++) {
     for (let row = 0; row < rowCount; row++) {
@@ -75,7 +75,7 @@ export const draw = (p5: p5Types) => {
 };
 
 // Reset board when mouse is pressed
-export const mousePressed = (p5: p5Types) => {
+export const mousePressed = (p5: P5) => {
   for (let column = 0; column < columnCount; column++) {
     for (let row = 0; row < rowCount; row++) {
       // Randomly select value of either 0 (dead) or 1 (alive)
@@ -86,7 +86,7 @@ export const mousePressed = (p5: p5Types) => {
 };
 
 // Keep canvas and its content responsive across window resizes
-export const windowResized = (p5: p5Types) => {
+export const windowResized = (p5: P5) => {
   let parentStyle: CSSStyleDeclaration;
   if (canvasParent.parentElement) {
     parentStyle = getComputedStyle(canvasParent.parentElement);

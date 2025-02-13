@@ -32,6 +32,6 @@ export default function P5jsContainer() {
 
     return (
         <div className="w-full h-screen">
-            {/* <Sketch {...sketchProps} /> */}
+            <Sketch {...sketchProps} />
         </div>)
 }
