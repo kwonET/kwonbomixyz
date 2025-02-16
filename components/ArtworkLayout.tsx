@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Container from "../components/Container";
 
-const ArtworkLayout = ({ artworks }) => {
+
+const ArtworkLayout = ({ artworks }: {
+    artworks: { source: string; tag: string; description: string }[]
+}) => {
     console.log('origin:', artworks);
 
     const [hoveredIndex, setHoveredIndex] = useState(null);
