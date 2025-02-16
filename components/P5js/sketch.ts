@@ -1,4 +1,4 @@
-import P5 from "p5";
+  import P5 from "p5";
 
 let canvasParent: Element;
 let parentStyle: CSSStyleDeclaration;
