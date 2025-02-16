@@ -8,12 +8,6 @@ const nextConfig = {
     remotePatterns: [],
   },
   webpack: (config) => {
-    config.module.rules.push({
-      test: /react-p5/,
-      parser: {
-        amd: false,
-      },
-    });
     return config;
   },
   transpilePackages: ["react-p5"],
