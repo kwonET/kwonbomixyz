@@ -12,4 +12,5 @@ const nextConfig = {
   },
   transpilePackages: ["react-p5"],
 };
-module.exports = nextConfig;
+
+module.exports = withContentlayer(nextConfig);

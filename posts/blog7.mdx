@@ -1,0 +1,309 @@
+---
+title: "Game of Life 그래픽를 Next.js 블로그에 넣기"
+description: "내 블로그에 이스터에그, 인터랙션 그래픽!"
+date: 2025-02-16
+tag: "nextjs, p5.js, Game of Life"
+---
+
+## Game of Life란?
+
+![Image](https://github.com/user-attachments/assets/23749569-5f3a-4a30-9265-a162e1744ed5)
+
+- **Game of Life**는 영국의 수학자 **John Conway**가 고안한 법칙이자, cellurar automata입니다.
+  - 여기서 cellurar automata는 격자형태에서, 세포(cell)의 초기 상태로부터 시간이 지남에 따라 세대간의 규칙이 생기는 모형을 말하는데요.
+  - 들어가기 전에 고안자인 John Conway의 automata에 대한 생각과 고찰이 담긴 영상을 소개해드립니다! 철학적이면서도 이분법적(공학적 의미)이라서 매우 흥미롭기 때문이죠..
+    - https://www.youtube.com/watch?v=R9Plq-D1gEk
+<br/>
+- 또한 이를 바탕으로 한 다양한 게임과 프로젝트가 많습니다. 참고한 흥미로운 Game of Life 관련 사이트도 같이 소개해드립니다.
+  - Game of Life 게임으로 만든 사이트
+    - https://playgameoflife.com/
+  - Game of Life의 규칙으로 sound 만들어보기
+    - https://drakon.tistory.com/142
+
+저는 이 흥미로운 주제로 저의 홈페이지를 꾸미기로 결정했고, Game of Life의 코드를 짜기 위해 더 자세히 알아보기 시작했습니다.
+
+---
+
+## Game of Life의 규칙
+
+아래는 Game of Life의 규칙입니다. 아래 규칙을 통해 코드를 짜면서 Game of Life의 세계관을 구성할 수 있어요.
+
+### 초기상태
+
+- Game of Life는 NxN의 격자 형태에서 시작한다.
+- 각 세포는 인접해있는 ‘이웃 세포’가 있고, 각 세포는 죽었거나(0) 살아있는(1) 상태이다.
+- 아래 규칙에 따라 주기적으로 상태가 변할 수도 있다.
+
+### 규칙
+
+- 현재 세포가 살아있고, 이웃 세포가 2~3개 살아있다면, 다음에도 현재 세포는 산다.
+- 현재 세포가 살아있고, 이웃 세포가 0~1개 살아있다면, 현재 세포는 죽는다. [overcrowding]
+- 현재 세포가 살아있고, 이웃 세포가 4개 이상 살아있다면, 현재 세포는 죽는다. [loneliness]
+- 현재 세포가 죽어있고, 이웃 세포가 3개라면, 현재 세포는 살아난다.
+
+위 초기 상태와 규칙 아래에 생기는 모형을 보면 꽤나 흥미로운데요. 시간이 지나도 변함이 없는 고정 패턴, 일정한 행동을 주기적으로 반복하는 패턴, 한 쪽으로 전진하는 패턴 등 다양한 모습을 발견할 수 있습니다.
+<br/>
+
+그렇다면 무수히 많은 시간동안 매우 큰 NxN에서 Game of Life를 진행시킨다면 어떠한 패턴이 또 창조될까요? 이러한 궁금증은 아래 영상에서 해소할 수 있습니다. (Game of Life에 진심인 사람이 제작한 영상인 느낌이죠..)
+
+- https://www.youtube.com/watch?v=viA-HIW-2C4
+
+<br/>
+그럼 이제 본격적으로 코드를 짜보겠습니다.
+
+---
+
+## Game of Life 코드
+
+### p5.js 코드
+
+- 격자를 그리고 칠하는 면에서 p5.js 언어를 사용하면 편하기 때문에 p5.js 기반으로 코드를 구성했습니다.
+- 크게 1) 초기 설정 단계인 **setup**, 2) 프레임마다 화면을 그리는 **draw**, 3) 사용자의 mouse input 을 받는 **mousePressed** 함수를 바탕으로 짜여진 코드입니다.
+
+### setup
+
+초기 설정 단계
+
+- 행, 열 크기를 설정하고 2차원 빈 배열을 만들어주는 함수입니다.
+- 각 위치(currentCells[][])마다 0 또는 1을 임의로 배치합니다.
+
+```jsx
+let cellSize = 20;
+let columnCount;
+let rowCount;
+let currentCells = [];
+let nextCells = [];
+
+function setup() {
+  frameRate(10);
+  createCanvas(720, 400);
+
+  // 행, 열의 크기를 구한다.
+  columnCount = floor(width / cellSize);
+  rowCount = floor(height / cellSize);
+
+  // 열마다 빈 배열을 값으로 넣어준다.
+  for (let column = 0; column < columnCount; column++) {
+    currentCells[column] = [];
+    nextCells[column] = [];
+    // 초기 상태 설정 추가한다.
+    for (let row = 0; row < rowCount; row++) {
+      currentCells[column][row] = p5.random([0, 1]);
+      nextCells[column][row] = 0;
+    }
+  }
+
+  noLoop();
+}
+```
+
+### draw
+
+프레임마다 화면을 그리는 단계
+
+- 세포를 모두 돌면서 게임 규칙에 따라 결정된 세포의 다음 상태를 정해줍니다.
+  - 세포의 운명 색은 generate 함수를 통해 결정합니다.
+  - 죽으면(0) 하얀색, 살아있으면(1) 검은색으로 칠해주게 됩니다.
+
+```jsx
+function draw() {
+  generate();
+  for (let column = 0; column < columnCount; column++) {
+    for (let row = 0; row < rowCount; row++) {
+      // 현재 세포의 상태 cell
+      let cell = currentCells[column][row];
+
+      // 현재 세포의 상태가 1이면, black으로 칠하고 | 0이면, white로 칠한다.
+      fill((1 - cell) * 255);
+      stroke(0);
+      rect(column * cellSize, row * cellSize, cellSize, cellSize);
+    }
+  }
+}
+```
+
+### generate
+
+게임 규칙에 따른 세포의 다음 운명을 정하는 단계
+
+- 모든 세포를 돌면서, 다음 주기의 세포의 상태를 결정합니다.
+- 규칙은 아래와 같이 1) 해당 세포의 상태와, 2) 주변 이웃의 살아있는 상태 개수에 따라 정해지는데요.
+  - 현재 세포가 살아있고, 이웃 세포가 0~1개 혹은 4개 이상 살아있다면, 현재 세포는 죽습니다. [overcrowding & loneliness]
+    ```jsx
+    if (neighbours < 2 || neighbours > 3) {
+      nextCells[column][row] = 0;
+    }
+    ```
+  - 현재 세포가 죽어있고, 이웃 세포가 3개라면, 현재 세포는 살아납니다.
+    ```jsx
+    else if (neighbours === 3) {
+            nextCells[column][row] = 1;
+          }
+    ```
+  - 현재 세포가 살아있고, 이웃 세포가 2~3개 살아있다면, 다음에도 현재 세포는 살게 됩니다.
+    ```jsx
+    else nextCells[column][row] = currentCells[column][row];
+    ```
+
+```jsx
+// 다음 세대의 세포의 상태를 결정하는 함수
+function generate() {
+  // 2차원 배열을 돌면서 상태를 정한다.
+  for (let column = 0; column < columnCount; column++) {
+    for (let row = 0; row < rowCount; row++) {
+      // 왼쪽 이웃
+      let left = (column - 1 + columnCount) % columnCount;
+
+      // 오른쪽 이웃
+      let right = (column + 1) % columnCount;
+
+      // 위쪽 이웃
+      let above = (row - 1 + rowCount) % rowCount;
+
+      // 아래쪽 이웃
+      let below = (row + 1) % rowCount;
+
+      // 주변 이웃이 얼마나 살아있는지 센다.
+      let neighbours =
+        currentCells[left][above] +
+        currentCells[column][above] +
+        currentCells[right][above] +
+        currentCells[left][row] +
+        currentCells[right][row] +
+        currentCells[left][below] +
+        currentCells[column][below] +
+        currentCells[right][below];
+
+      if (neighbours < 2 || neighbours > 3) {
+        nextCells[column][row] = 0;
+      } else if (neighbours === 3) {
+        nextCells[column][row] = 1;
+      } else nextCells[column][row] = currentCells[column][row];
+    }
+  }
+
+  // 현재 세포의 상태 배열을 구한 nextCells로 바꾼다.
+  let temp = currentCells;
+  currentCells = nextCells;
+  nextCells = temp;
+}
+```
+
+### mousePressed
+
+게임을 초기화하는 단계
+
+- 사용자가 마우스를 클릭하면 다시 세포의 상태를 재배열해줌으로써 게임을 초기화합니다.
+
+```jsx
+// 마우스를 클릭하면 랜덤하게 재배치한다.
+function mousePressed() {
+  randomizeBoard();
+  loop();
+}
+
+function randomizeBoard() {
+  for (let column = 0; column < columnCount; column++) {
+    for (let row = 0; row < rowCount; row++) {
+      // 0과 1중 랜덤하게 모든 격자를 재배열한다.
+      currentCells[column][row] = random([0, 1]);
+    }
+  }
+}
+```
+
+### \* c++ 코드
+
+- c++ 코드의 경우, 아래 링크를 참고하면 c언어가 익숙한 독자는 이해하기 편할 거라 생각합니다.
+  - https://blog.naver.com/lsm_origin/120211281982
+
+---
+
+## Next.js 블로그에 Game of Life 인터랙션 넣기
+
+- 저는 블로그를 next.js & typescript 환경에서 운영 중인데요. 따라서 p5.js 코드를 제 블로그에 적용하기 위해서 아래와 같은 과정을 거쳐야 했습니다.
+
+### ❎ 외부 라이브러리를 사용
+
+- 우선 `react-p5` `React-Wrapper`와 같은 외부 라이브러리를 사용하려 했습니다.
+  하지만 빌드 과정에서 p5(p5.js를 위한 기본 라이브러리)의 type과 react-p5의 type이 충돌하면서 많은 애를 먹고, 직접 구현을 마음 먹게 되었습니다. 혹시 몰라 react-p5를 활용한 예제를 남겨놓겠습니다.
+   - https://dev.to/christiankastner/integrating-p5-js-with-react-i0d
+
+### ✅ P5js 캔버스를 직접 React에 띄우기
+
+- 다음은 직접 Instance를 사용해 P5.js를 React의 가상 DOM과 함께 사용하는 방법입니다. 아래와 같이 많은 레퍼런스가 있고, 또 직관적이라고 판단되어 아래와 같이 진행했습니다.
+
+  - https://whoisryosuke.com/blog/2024/adding-p5js-to-a-nextjs-blog
+  - https://github.com/alecrem/nextjs-p5js-tutorial/tree/main
+
+<br/>
+- 큰 흐름만 설명하고, 자세한 코드는 제 깃허브를 남겨놓겠습니다.
+
+  ```jsx
+  import type p5Types from "p5";
+  ```
+
+  - `p5` 패키지를 다운 받아 p5.js의 기본적인 함수를 사용할 준비를 합니다.
+    - https://www.npmjs.com/package/p5
+
+  ```jsx
+      new p5((p: p5Types) => {
+          p.setup = () => {
+            // 캔버스 생성 및 부모 요소 설정
+            const canvas = p.createCanvas(500, 500)
+            canvas.parent(canvasRef.current)
+          }
+  ```
+
+  - 전역 스코프가 아닌, p5 인스턴스를 만들어 관련 함수를 내부에 캡슐화해줍니다.
+  - 이를 통해 독립적으로 React의 DOM과 더 잘 동작하게 합니다.
+
+  ```jsx
+  const canvas = p.createCanvas(500, 500);
+  canvas.parent(canvasRef.current);
+  ```
+
+  - ref를 통해 p5 canvas와 마운트되게 구현합니다.
+
+- 아래는 간략한 react & p5.js의 예시 코드입니다.
+
+```jsx
+// Next.js/React 환경에서의 P5.js 구현
+import { useEffect, useRef } from "react";
+import type p5Types from "p5";
+
+export default function P5Container() {
+  const canvasRef = useRef < HTMLDivElement > null;
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    async function initP5() {
+      const p5 = (await import("p5")).default;
+      new p5((p: p5Types) => {
+        p.setup = () => {
+          // 캔버스 생성 및 부모 요소 설정
+          const canvas = p.createCanvas(500, 500);
+          canvas.parent(canvasRef.current);
+        };
+
+        p.draw = () => {
+          // 애니메이션 로직
+        };
+      });
+    }
+
+    initP5();
+  }, []);
+
+  return <div ref={canvasRef}></div>;
+}
+```
+
+---
+
+자세한 건 제 깃허브 코드를 봐주시면 감사하겠습니다!
+
+https://github.com/kwonET/kwonbomixyz/tree/main/components/P5js
+
+재밌는 규칙을 직접 javascript로 표현해보고, 블로그에 상징적인 의미로 남길 수 있는 좋은 포스팅이었습니다.
