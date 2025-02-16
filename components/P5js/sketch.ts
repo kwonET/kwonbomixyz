@@ -1,3 +1,4 @@
+import { TIMEOUT } from "./../../node_modules/@types/node/dns.d";
 import type p5Types from "p5";
 
 let canvasParent: Element;
@@ -86,6 +87,7 @@ export const mousePressed = (p5: p5Types) => {
 // Keep canvas and its content responsive across window resizes
 export const windowResized = (p5: p5Types) => {
   if (!canvasParent) return;
+
   const rect = canvasParent.getBoundingClientRect();
   p5.resizeCanvas(rect.width, rect.height);
   // canvasParent = canvasParentRef;

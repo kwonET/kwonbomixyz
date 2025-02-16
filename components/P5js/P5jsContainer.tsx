@@ -5,15 +5,15 @@ import { setup, draw, windowResized, mousePressed } from './sketch'
 export default function P5jsContainer() {
     const canvasRef = useRef<HTMLDivElement>(null)
     const [mounted, setMounted] = useState(false)
+    const p5InstanceRef = useRef<any>(null) // p5 인스턴스 참조 추가
 
     useEffect(() => {
         if (typeof window === 'undefined') return
-        let p5Instance: any = null;
 
         async function loadP5() {
             const p5 = (await import('p5')).default
 
-            new p5((p: p5Types) => {
+            p5InstanceRef.current = new p5((p: p5Types) => {
                 p.setup = () => {
                     if (canvasRef.current) {
                         setup(p, canvasRef.current)
@@ -38,8 +38,9 @@ export default function P5jsContainer() {
         loadP5()
 
         return () => {
-            if (p5Instance) { p5Instance.remove() }
-            setMounted(false)
+            if (p5InstanceRef.current) {
+                p5InstanceRef.current.remove()
+            } setMounted(false)
         }
     }, [])
 
