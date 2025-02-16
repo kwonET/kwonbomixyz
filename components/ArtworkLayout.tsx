@@ -8,7 +8,7 @@ const ArtworkLayout = ({ artworks }: {
     console.log('origin:', artworks);
 
     const [hoveredIndex, setHoveredIndex] = useState(null);
-    const [artworksWithEmpty, setArtworksWithEmpty] = useState(artworks);
+    const [artworksWithEmpty, setArtworksWithEmpty] = useState([]);
 
     useEffect(() => {
         if (!Array.isArray(artworks) || artworks.length === 0) {
@@ -44,7 +44,7 @@ const ArtworkLayout = ({ artworks }: {
 
     return (
         <Container checkedMenu='Artwork'>
-            <div className="p-20 bg-white min-h-screen mt-10">
+            <div className="p-20 bg-white min-h-screen mt-6">
                 <div className="grid grid-cols-4 gap-6 max-w-6xl mx-auto">
                     {artworksWithEmpty.map((item, index) => (
                         item.isEmpty ? (
