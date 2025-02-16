@@ -1,4 +1,3 @@
-import { TIMEOUT } from "./../../node_modules/@types/node/dns.d";
 import type p5Types from "p5";
 
 let canvasParent: Element;
