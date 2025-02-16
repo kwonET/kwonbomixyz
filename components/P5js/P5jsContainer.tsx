@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
-import type p5Types from 'p5'
+import type { P5CanvasInstance } from 'react-p5'
 import { setup, draw, windowResized, mousePressed } from './sketch'
 
 // dynamic import를 다르게 처리
