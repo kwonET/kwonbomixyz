@@ -81,13 +81,12 @@ export const mousePressed = (p5: p5Types) => {
 };
 
 // Keep canvas and its content responsive across window resizes
-export const windowResized = (p5: p5Types) => {
-  let parentStyle: CSSStyleDeclaration;
-  if (canvasParent.parentElement) {
-    parentStyle = getComputedStyle(canvasParent.parentElement);
-  } else {
-    parentStyle = getComputedStyle(canvasParent);
-  }
+export const windowResized = (p5: p5Types, canvasParentRef: Element) => {
+  canvasParent = canvasParentRef;
+
+  const parent = canvasParentRef.parentElement || canvasParentRef;
+  parentStyle = getComputedStyle(parent);
+
   canvasWidth = parseInt(parentStyle.width);
   canvasHeight = parseInt(parentStyle.height);
   p5.resizeCanvas(canvasWidth, canvasHeight);
