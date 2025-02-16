@@ -7,6 +7,13 @@ const nextConfig = {
   images: {
     remotePatterns: [],
   },
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+    };
+    return config;
+  },
+  transpilePackages: ["react-p5"],
 };
 
 module.exports = withContentlayer(nextConfig);
