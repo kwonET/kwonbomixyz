@@ -1,4 +1,4 @@
-import type { P5CanvasInstance } from "react-p5";
+import type p5Types from "p5";
 
 let canvasParent: Element;
 let parentStyle: CSSStyleDeclaration;
@@ -13,7 +13,7 @@ type Grid = Cell[][];
 let currentCells: Grid = [];
 let nextCells: Grid = [];
 
-export const setup = (p5: P5CanvasInstance, canvasParentRef: Element) => {
+export const setup = (p5: p5Types, canvasParentRef: Element) => {
   // Find the parent Element's size to create a Canvas that size
   canvasParent = canvasParentRef;
 
@@ -48,7 +48,7 @@ export const setup = (p5: P5CanvasInstance, canvasParentRef: Element) => {
   p5.loop(); // noLoop() 대신 loop()로 변경
 };
 
-export const draw = (p5: P5CanvasInstance) => {
+export const draw = (p5: p5Types) => {
   generate();
   for (let column = 0; column < columnCount; column++) {
     for (let row = 0; row < rowCount; row++) {
@@ -70,7 +70,7 @@ export const draw = (p5: P5CanvasInstance) => {
 };
 
 // Reset board when mouse is pressed
-export const mousePressed = (p5: P5CanvasInstance) => {
+export const mousePressed = (p5: p5Types) => {
   for (let column = 0; column < columnCount; column++) {
     for (let row = 0; row < rowCount; row++) {
       // Randomly select value of either 0 (dead) or 1 (alive)
@@ -81,7 +81,7 @@ export const mousePressed = (p5: P5CanvasInstance) => {
 };
 
 // Keep canvas and its content responsive across window resizes
-export const windowResized = (p5: P5CanvasInstance) => {
+export const windowResized = (p5: p5Types) => {
   let parentStyle: CSSStyleDeclaration;
   if (canvasParent.parentElement) {
     parentStyle = getComputedStyle(canvasParent.parentElement);
