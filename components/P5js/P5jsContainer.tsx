@@ -10,19 +10,16 @@ const Sketch = dynamic(() => import('react-p5').then((mod) => {
     ssr: false,
     loading: () => <div>Loading...</div>
 })
-
 export default function P5jsContainer() {
     const [mounted, setMounted] = useState(false)
-
     useEffect(() => {
         setMounted(true)
         return () => setMounted(false)
     }, [])
-
     // 컴포넌트가 마운트되기 전에는 렌더링하지 않음
     if (!mounted) return null
 
-    // props 객체 정의
+    // props 타입 정의
     const sketchProps = {
         setup: setup,
         draw: draw,
@@ -33,5 +30,6 @@ export default function P5jsContainer() {
     return (
         <div className="w-full h-screen">
             <Sketch {...sketchProps} />
-        </div>)
+        </div>
+    )
 }
