@@ -17,11 +17,14 @@ export const setup = (p5: p5Types, canvasParentRef: Element) => {
   // Find the parent Element's size to create a Canvas that size
   canvasParent = canvasParentRef;
 
-  const parent = canvasParentRef.parentElement || canvasParentRef;
-  parentStyle = getComputedStyle(parent);
+  const rect = canvasParentRef.getBoundingClientRect();
+  canvasWidth = rect.width;
+  canvasHeight = rect.height;
+  // const parent = canvasParentRef.parentElement || canvasParentRef;
+  // parentStyle = getComputedStyle(parent);
 
-  canvasWidth = parseInt(parentStyle.width);
-  canvasHeight = parseInt(parentStyle.height);
+  // canvasWidth = parseInt(parentStyle.width);
+  // canvasHeight = parseInt(parentStyle.height);
 
   const canvas = p5.createCanvas(canvasWidth, canvasHeight);
   canvas.parent(canvasParentRef);
@@ -81,15 +84,18 @@ export const mousePressed = (p5: p5Types) => {
 };
 
 // Keep canvas and its content responsive across window resizes
-export const windowResized = (p5: p5Types, canvasParentRef: Element) => {
-  canvasParent = canvasParentRef;
+export const windowResized = (p5: p5Types) => {
+  if (!canvasParent) return;
+  const rect = canvasParent.getBoundingClientRect();
+  p5.resizeCanvas(rect.width, rect.height);
+  // canvasParent = canvasParentRef;
 
-  const parent = canvasParentRef.parentElement || canvasParentRef;
-  parentStyle = getComputedStyle(parent);
+  // const parent = canvasParentRef.parentElement || canvasParentRef;
+  // parentStyle = getComputedStyle(parent);
 
-  canvasWidth = parseInt(parentStyle.width);
-  canvasHeight = parseInt(parentStyle.height);
-  p5.resizeCanvas(canvasWidth, canvasHeight);
+  // canvasWidth = parseInt(parentStyle.width);
+  // canvasHeight = parseInt(parentStyle.height);
+  // p5.resizeCanvas(canvasWidth, canvasHeight);
 };
 
 // Create a new generation

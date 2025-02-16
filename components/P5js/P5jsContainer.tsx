@@ -25,7 +25,7 @@ export default function P5jsContainer() {
 
                 p.windowResized = () => {
                     if (canvasRef.current) {
-                        windowResized(p, canvasRef.current)
+                        windowResized(p)
                     }
                 }
 
