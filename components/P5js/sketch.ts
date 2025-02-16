@@ -19,25 +19,22 @@ export const setup = (p5: P5, canvasParentRef: Element) => {
   // Find the parent Element's size to create a Canvas that size
   canvasParent = canvasParentRef;
 
-  if (canvasParentRef?.parentElement) {
-    parentStyle = getComputedStyle(canvasParentRef.parentElement);
+  const parent = canvasParentRef.parentElement || canvasParentRef;
+  parentStyle = getComputedStyle(parent);
 
-    canvasWidth = parseInt(parentStyle.width);
-    canvasHeight = parseInt(parentStyle.height);
-  }
+  canvasWidth = parseInt(parentStyle.width);
+  canvasHeight = parseInt(parentStyle.height);
 
-  const canvas = p5
-    .createCanvas(canvasWidth, canvasHeight)
-    .parent(canvasParentRef);
+  const canvas = p5.createCanvas(canvasWidth, canvasHeight);
+  canvas.parent(canvasParentRef);
 
   // Set simulation framerate to 10 to avoid flickering
   p5.frameRate(5);
   //   p5.createCanvas(720, 400);
 
-  // slider = s5.createSlider(0, 255);
-  // slider.position(canvasWidth / 2, canvasHeight / 2);
-  // slider.size(80);
-
+  slider = p5.createSlider(0, 255);
+  slider.position(canvasWidth / 2, canvasHeight / 2);
+  slider.size(80);
   // Calculate columns and rows
   columnCount = p5.floor(canvasWidth / cellSize);
   rowCount = p5.floor(canvasHeight / cellSize);
@@ -91,13 +88,13 @@ export const mousePressed = (p5: P5) => {
 // Keep canvas and its content responsive across window resizes
 export const windowResized = (p5: P5) => {
   let parentStyle: CSSStyleDeclaration;
-  if (canvasParent?.parentElement) {
+  if (canvasParent.parentElement) {
     parentStyle = getComputedStyle(canvasParent.parentElement);
-
-    canvasWidth = parseInt(parentStyle.width);
-    canvasHeight = parseInt(parentStyle.height);
+  } else {
+    parentStyle = getComputedStyle(canvasParent);
   }
-
+  canvasWidth = parseInt(parentStyle.width);
+  canvasHeight = parseInt(parentStyle.height);
   p5.resizeCanvas(canvasWidth, canvasHeight);
 };
 
