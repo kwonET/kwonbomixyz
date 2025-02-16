@@ -8,12 +8,14 @@ const nextConfig = {
     remotePatterns: [],
   },
   webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-    };
+    config.module.rules.push({
+      test: /react-p5/,
+      parser: {
+        amd: false,
+      },
+    });
     return config;
   },
   transpilePackages: ["react-p5"],
 };
-
-module.exports = withContentlayer(nextConfig);
+module.exports = nextConfig;

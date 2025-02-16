@@ -4,9 +4,8 @@ import type p5Types from 'p5'
 import { setup, draw, windowResized, mousePressed } from './sketch'
 
 // dynamic import를 다르게 처리
-const Sketch = dynamic(() => import('react-p5').then(mod => mod.default), {
+const Sketch = dynamic(() => import('react-p5').then(mod => { return mod.default || mod }), {
     ssr: false,
-    loading: () => <div>Loading...</div>
 })
 
 export default function P5jsContainer() {

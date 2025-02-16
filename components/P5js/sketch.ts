@@ -1,4 +1,4 @@
-  import P5 from "p5";
+import P5 from "p5";
 
 let canvasParent: Element;
 let parentStyle: CSSStyleDeclaration;
@@ -12,8 +12,6 @@ type Grid = Cell[][];
 
 let currentCells: Grid = [];
 let nextCells: Grid = [];
-
-let slider;
 
 export const setup = (p5: P5, canvasParentRef: Element) => {
   // Find the parent Element's size to create a Canvas that size
@@ -32,9 +30,6 @@ export const setup = (p5: P5, canvasParentRef: Element) => {
   p5.frameRate(5);
   //   p5.createCanvas(720, 400);
 
-  slider = p5.createSlider(0, 255);
-  slider.position(canvasWidth / 2, canvasHeight / 2);
-  slider.size(80);
   // Calculate columns and rows
   columnCount = p5.floor(canvasWidth / cellSize);
   rowCount = p5.floor(canvasHeight / cellSize);
