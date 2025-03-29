@@ -61,8 +61,6 @@ export default function P5jsContainer() {
                 if (typeof window !== 'undefined') {
                     (window as any).p5Instance = p5InstanceRef.current;
                 }
-
-
             }
             catch (error) {
                 console.error('Error in P5', error);

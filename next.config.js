@@ -7,7 +7,10 @@ const nextConfig = {
   images: {
     remotePatterns: [],
   },
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.externals = [...config.externals, "p5"];
+    }
     return config;
   },
 };
