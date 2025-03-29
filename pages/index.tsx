@@ -1,14 +1,15 @@
+import * as React from 'react'
 import Container from "../components/Container";
 import metadata from "../data/metadata";
 import RecentPosts from "../components/RecentPosts";
 import { allPosts } from ".contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
-import P5jsContainer from "@/components/P5js/P5jsContainer";
+import P5jsContainerCSR from '@/components/P5js/P5jsContainerCSR';
 
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Container checkedMenu={'Home'}>
-      <P5jsContainer />
+      <P5jsContainerCSR />
       {/* <div className={`relative h-[500px]`}>      </div> */}
     </Container >
   );

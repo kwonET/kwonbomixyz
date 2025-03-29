@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef } from 'react'
 import p5Types from 'p5'
 import { setup, draw, windowResized, mousePressed } from './sketch'
@@ -16,8 +17,8 @@ export default function P5jsContainer() {
         async function loadP5() {
             const p5 = (await import('p5')).default
             console.log('loadP5 running..');
-            
-            p5InstanceRef.current = new p5((p: p5Types) => {
+
+            p5InstanceRef.current = await new p5((p: p5Types) => {
                 p.setup = () => {
                     if (canvasRef.current) {
                         setup(p, canvasRef.current)
