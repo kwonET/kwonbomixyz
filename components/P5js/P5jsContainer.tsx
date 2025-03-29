@@ -8,7 +8,11 @@ export default function P5jsContainer() {
     const p5InstanceRef = useRef<any>(null) // p5 인스턴스 참조 추가
 
     useEffect(() => {
-        if (typeof window === 'undefined') return
+        if (typeof window === 'undefined') {
+            console.log('window undefined');
+            return;
+
+        }
 
         async function loadP5() {
             const p5 = (await import('p5')).default
