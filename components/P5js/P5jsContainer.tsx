@@ -15,30 +15,58 @@ export default function P5jsContainer() {
         }
 
         async function loadP5() {
-            const p5 = (await import('p5')).default
-            console.log('loadP5 running..');
+            try {
+                const p5Module = await import('p5');
+                const p5 = p5Module.default
 
-            p5InstanceRef.current = await new p5((p: p5Types) => {
-                p.setup = () => {
-                    if (canvasRef.current) {
-                        setup(p, canvasRef.current)
+                console.log('p5 module loaded:', !!p5);
+
+                p5InstanceRef.current = new p5((p: p5Types) => {
+                    console.log('p5 instance created');
+                    p.setup = () => {
+                        if (canvasRef.current) {
+                            const canvas = p.createCanvas(
+                                canvasRef.current.offsetWidth || 800,
+                                canvasRef.current.offsetHeight || 600
+                            );
+                            canvas.parent(canvasRef.current);
+
+                            const canvasElement = document.getElementById('defaultCanvas0');
+                            if (canvasElement) {
+                                canvasElement.style.visibility = 'visible';
+                                canvasElement.removeAttribute('data-hidden');
+                            }
+
+                            if (typeof setup === 'function') {
+                                setup(p, canvasRef.current);
+                            }
+                        }
                     }
-                    console.log(canvasRef.current);
-                }
-                p.draw = () => {
-                    draw(p)
-                }
-
-                p.windowResized = () => {
-                    if (canvasRef.current) {
-                        windowResized(p)
+                    p.draw = () => {
+                        if (typeof draw === 'function') {
+                            draw(p);
+                        }
                     }
+
+                    p.windowResized = () => {
+                        if (canvasRef.current) {
+                            windowResized(p)
+                        }
+                    }
+
+                    p.mousePressed = () => {
+                        mousePressed(p)
+                    }
+                })
+                if (typeof window !== 'undefined') {
+                    (window as any).p5Instance = p5InstanceRef.current;
                 }
 
-                p.mousePressed = () => {
-                    mousePressed(p)
-                }
-            })
+
+            }
+            catch (error) {
+                console.error('Error in P5', error);
+            }
         }
         setMounted(true)
         loadP5()
@@ -49,6 +77,7 @@ export default function P5jsContainer() {
             } setMounted(false)
         }
     }, [])
+
 
     useEffect(() => {
         if (p5InstanceRef.current && p5InstanceRef.current.canvas) {
