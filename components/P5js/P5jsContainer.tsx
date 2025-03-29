@@ -50,6 +50,12 @@ export default function P5jsContainer() {
         }
     }, [])
 
+    useEffect(() => {
+        if (p5InstanceRef.current && p5InstanceRef.current.canvas) {
+            p5InstanceRef.current.canvas.style('visibility', 'visible');
+            p5InstanceRef.current.canvas.attribute('data-hidden', 'false');
+        }
+    }, [mounted])
 
     return (
         <div ref={canvasRef} className="w-full h-screen">
