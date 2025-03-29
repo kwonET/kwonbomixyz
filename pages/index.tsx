@@ -5,11 +5,12 @@ import RecentPosts from "../components/RecentPosts";
 import { allPosts } from ".contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
 import P5jsContainerCSR from '@/components/P5js/P5jsContainerCSR';
-
+import SandBox from '@/components/P5js/SandBox';
+import source from '../components/HomeContents/sourcecode'
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Container checkedMenu={'Home'}>
-      <P5jsContainerCSR />
+      <SandBox running={true} result={source} />
       {/* <div className={`relative h-[500px]`}>      </div> */}
     </Container >
   );
