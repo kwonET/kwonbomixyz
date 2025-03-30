@@ -73,10 +73,10 @@ const components: MDXComponents = {
 
   // 리스트
   ul: (props) => (
-    <ul className="my-6 ml-2 list-disc  text-base md:text-lg  text-slate-700 space-y-2" {...props} />
+    <ul className="my-6 list-disc  text-base md:text-lg  text-slate-700 space-y-2" {...props} />
   ),
   ol: (props) => (
-    <ol className="my-6 ml-2 list-decimal  text-base md:text-lg  text-slate-700 space-y-2" {...props} />
+    <ol className="my-6  list-decimal  text-base md:text-lg  text-slate-700 space-y-2" {...props} />
   ),
 
   // 블록쿼트
