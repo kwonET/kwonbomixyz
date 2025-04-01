@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Container from "../components/Container";
-
+import Image from 'next/image';
 
 const ArtworkLayout = ({ artworks }: {
     artworks: { source: string; tag: string; description: string }[]
 }) => {
-    console.log('origin:', artworks);
 
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [artworksWithEmpty, setArtworksWithEmpty] = useState([]);
@@ -45,10 +44,10 @@ const ArtworkLayout = ({ artworks }: {
     return (
         <Container checkedMenu='Artwork'>
             <div className="p-20 bg-white min-h-screen mt-6">
-                <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 max-w-6xl mx-auto">
+                <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 max-w-6xl mx-auto ">
                     {artworksWithEmpty.map((item, index) => (
                         item.isEmpty ? (
-                            <div key={index} className={`${getImageSize(index) === 'large' ? 'col-span-1 row-span-2' : ''}`} />
+                            <div key={index} className={`${getImageSize(index) === 'large' ? 'col-span-1 row-span-2' : ''} `} />
                         ) : (
                             <div
                                 key={index}
@@ -57,11 +56,19 @@ const ArtworkLayout = ({ artworks }: {
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}
                             >
-                                <img
+                                {/* <img
                                     src={item.source}
                                     alt={`Artwork ${index + 1}`}
                                     className={`w-full h-full object-cover transition-all duration-300
                                         ${hoveredIndex === index ? '' : 'grayscale'}`}
+                                /> */}
+                                <Image
+                                    src={item.source}
+                                    alt={`Artwork ${index + 1}`}
+                                    className={`w-full h-full object-cover transition-all duration-300
+                                        ${hoveredIndex === index ? '' : 'grayscale'}`}
+                                    width={1600}
+                                    height={900}
                                 />
                             </div>
                         )
