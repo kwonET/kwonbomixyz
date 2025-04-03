@@ -50,6 +50,8 @@ const ArtworkLayout = ({ artworks }: {
                             <div key={index} className={`${getImageSize(index) === 'large' ? 'col-span-1 row-span-2' : ''} `} />
                         ) : (
                             <div
+                                data-aos="fade-up"
+                                data-aos-easing="ease-in-sine"
                                 key={index}
                                 className={`relative overflow-hidden cursor-pointer transition-all duration-300
                                     ${getImageSize(index) === 'large' ? 'col-span-1 row-span-2' : ''}`}

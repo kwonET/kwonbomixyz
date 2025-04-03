@@ -6,7 +6,13 @@ import FullHeightLine from "./FullHeightLine";
 import FullHeightLineMargin from "./FullHeightLineMargin";
 import { useRouter } from 'next/router';
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 const Container = (props) => {
+  useEffect(() => {
+    AOS.init();
+  }, [])
   const router = useRouter()
   const meta = {
     title: metadata.title,
@@ -17,7 +23,6 @@ const Container = (props) => {
   const handleClick = () => {
     router.replace('/')
   }
-
   return (
     <div className="flex flex-col h-screen overflow-hidden font-gothic1">
       <Head>
@@ -63,6 +68,7 @@ const Container = (props) => {
       </header>
 
       <main className="flex-1 overflow-y-auto pt-2 md:pt-[200px] px-12 md:pl-[120px] md:pr-[120px]">
+
         {props.children}
       </main>
     </div>
