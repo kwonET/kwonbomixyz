@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 interface SandBoxProps {
-    running: boolean;
-    result: string;
+  running: boolean;
+  result: string;
+  cellSize?: number;
 }
-const SandBox = ({ running, result }: SandBoxProps) => {
-    const srcdoc = (src: string): string => `
+const SandBox = ({ running, result, cellSize }: SandBoxProps) => {
+  const srcdoc = (src: string): string => `
     <!doctype html>
     <html>
       <head>
@@ -42,55 +43,55 @@ const SandBox = ({ running, result }: SandBoxProps) => {
           });
           
           // P5.js 코드 실행
-          ${src}
+          let cellSize = ${cellSize}; ${src}
         </script>
       </body>
     </html>
   `;
 
-    // 이벤트 리스너 추가 (로그와 에러 수신)
-    const [logs, setLogs] = useState<string[]>([]);
+  // 이벤트 리스너 추가 (로그와 에러 수신)
+  const [logs, setLogs] = useState<string[]>([]);
 
-    useEffect(() => {
-        const handleMessage = (event: MessageEvent) => {
-            try {
-                const data = JSON.parse(event.data);
-                if (data.type === 'log') {
-                    setLogs(prevLogs => [...prevLogs, ...data.data]);
-                } else if (data.type === 'error') {
-                    console.error('Sketch error:', data.data);
-                    // 에러 UI 표시 로직 추가
-                }
-            } catch (e) {
-                // JSON 파싱 에러 처리
-            }
-        };
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.type === 'log') {
+          setLogs(prevLogs => [...prevLogs, ...data.data]);
+        } else if (data.type === 'error') {
+          console.error('Sketch error:', data.data);
+          // 에러 UI 표시 로직 추가
+        }
+      } catch (e) {
+        // JSON 파싱 에러 처리
+      }
+    };
 
-        window.addEventListener('message', handleMessage);
-        return () => window.removeEventListener('message', handleMessage);
-    }, []);
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
 
-    if (!running) {
-        return (
-            <div className="w-full min-h-[500px] bg-gray-100 rounded text-sm text-gray-400 flex justify-center items-center">
-                No sketches running
-            </div>
-        );
-    }
-
+  if (!running) {
     return (
-
-        <div className="w-full h-screen">
-            <iframe
-                title="p5-sandbox"
-                width="100%"
-                height="100%"
-                srcDoc={srcdoc(result)}
-                sandbox="allow-scripts"
-                allow="accelerometer; camera; microphone; gamepad"
-            />
-        </div>
+      <div className="w-full min-h-[500px] bg-gray-100 rounded text-sm text-gray-400 flex justify-center items-center">
+        No sketches running
+      </div>
     );
+  }
+
+  return (
+
+    <div className="w-full h-screen">
+      <iframe
+        title="p5-sandbox"
+        width="100%"
+        height="100%"
+        srcDoc={srcdoc(result)}
+        sandbox="allow-scripts"
+        allow="accelerometer; camera; microphone; gamepad"
+      />
+    </div>
+  );
 };
 
 export default SandBox;

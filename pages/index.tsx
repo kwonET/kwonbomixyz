@@ -10,7 +10,7 @@ import source from '../components/HomeContents/sourcecode'
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Container checkedMenu={'Home'}>
-      <SandBox running={true} result={source} />
+      <SandBox running={true} result={source} cellSize={3} />
       {/* <div className={`relative h-[500px]`}>      </div> */}
     </Container >
   );

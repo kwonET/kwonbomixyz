@@ -1,8 +1,10 @@
-const source = `
+let cellSize = 15;
 let columnCount = 0;
 let rowCount = 0;
 let currentCells = [];
 let nextCells = [];
+let slider;
+
 function setup() {
   // Get container dimensions
   const container = document.getElementById("sketch-container");
@@ -16,10 +18,21 @@ function setup() {
   // Set simulation framerate to avoid flickering
   frameRate(5);
 
+  slider = createSlider(23, 6);
+  slider.position(10, 10);
+  slider.size(80);
+
+  cellSize = slider.value();
+
   initCellSize();
 }
 
 function draw() {
+  let prevCellSize = cellSize;
+  cellSize = slider.value();
+  if (cellSize !== prevCellSize) {
+    initCellSize();
+  }
   generate();
   for (let column = 0; column < columnCount; column++) {
     for (let row = 0; row < rowCount; row++) {
@@ -132,7 +145,6 @@ function generate() {
   currentCells = nextCells;
   nextCells = temp;
 }
-  
 function initCellSize() {
   // Calculate columns and rows
   columnCount = floor(width / cellSize);
@@ -149,6 +161,3 @@ function initCellSize() {
     }
   }
 }
-
-`;
-export default source;
