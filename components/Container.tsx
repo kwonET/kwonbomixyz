@@ -6,13 +6,7 @@ import FullHeightLine from "./FullHeightLine";
 import FullHeightLineMargin from "./FullHeightLineMargin";
 import { useRouter } from 'next/router';
 
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-
 const Container = (props) => {
-  useEffect(() => {
-    AOS.init();
-  }, [])
   const router = useRouter()
   const meta = {
     title: metadata.title,

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Container from "../components/Container";
 import Image from 'next/image';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const ArtworkLayout = ({ artworks }: {
     artworks: { source: string; tag: string; description: string }[]
@@ -10,6 +12,8 @@ const ArtworkLayout = ({ artworks }: {
     const [artworksWithEmpty, setArtworksWithEmpty] = useState([]);
 
     useEffect(() => {
+        AOS.init({ duration: 800, easing: 'ease-in-sine', once: false, offset: 100, delay: 0, mirror: true, anchorPlacement: 'top-bottom' });
+
         if (!Array.isArray(artworks) || artworks.length === 0) {
             console.error('Invalid or empty artworks array:', artworks);
             return;
@@ -35,7 +39,27 @@ const ArtworkLayout = ({ artworks }: {
             [validResult[currentIndex], validResult[randomIndex]] = [validResult[randomIndex], validResult[currentIndex]]
         }
         setArtworksWithEmpty(validResult);
+        setTimeout(() => {
+            AOS.refresh();
+        }, 500);
     }, [artworks]);
+
+    useEffect(() => {
+        // Add event listeners for various events that might need a refresh
+        const handleRefresh = () => {
+            AOS.refresh();
+        };
+
+        window.addEventListener('resize', handleRefresh);
+        window.addEventListener('scroll', handleRefresh);
+        window.addEventListener('orientationchange', handleRefresh);
+
+        return () => {
+            window.removeEventListener('resize', handleRefresh);
+            window.removeEventListener('scroll', handleRefresh);
+            window.removeEventListener('orientationchange', handleRefresh);
+        };
+    }, []);
 
     const getImageSize = (index: number) => {
         return index % 4 === 0 ? 'large' : 'small';
@@ -50,20 +74,12 @@ const ArtworkLayout = ({ artworks }: {
                             <div key={index} className={`${getImageSize(index) === 'large' ? 'col-span-1 row-span-2' : ''} `} />
                         ) : (
                             <div
-                                data-aos="fade-up"
-                                data-aos-easing="ease-in-sine"
                                 key={index}
                                 className={`relative overflow-hidden cursor-pointer transition-all duration-300
                                     ${getImageSize(index) === 'large' ? 'col-span-1 row-span-2' : ''}`}
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}
                             >
-                                {/* <img
-                                    src={item.source}
-                                    alt={`Artwork ${index + 1}`}
-                                    className={`w-full h-full object-cover transition-all duration-300
-                                        ${hoveredIndex === index ? '' : 'grayscale'}`}
-                                /> */}
                                 <Image
                                     src={item.source}
                                     alt={`Artwork ${index + 1}`}
