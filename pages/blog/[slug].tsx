@@ -1,5 +1,5 @@
 import React from "react";
-import Container from "@/components/common/Container";
+import Container from "../../components/common/Container";
 import { allPosts } from ".contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
 import { useMDXComponent } from "next-contentlayer/hooks";

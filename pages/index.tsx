@@ -4,9 +4,9 @@ import Container from "../components/common/Container";
 import metadata from "../data/metadata";
 import { allPosts } from ".contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
-import SandBox from '@/components/p5js/SandBox';
+import SandBox from '../components/p5js/SandBox'
 import source from '../data/sourcecode'
-import { colorPair } from '@/data/colors';
+import { colorPair } from '../data/colors'
 
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [colors, setColors] = useState(["00FFC2", "FFF"]);
