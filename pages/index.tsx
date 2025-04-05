@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useState, useEffect } from 'react';
 import Container from "../components/common/Container";
 import metadata from "../data/metadata";
 import { allPosts } from ".contentlayer/generated";
@@ -6,10 +7,18 @@ import { InferGetStaticPropsType } from "next";
 import P5jsContainerCSR from '@/components/p5js/P5jsContainerCSR';
 import SandBox from '@/components/p5js/SandBox';
 import source from '../data/sourcecode'
+import { colorPair } from '@/data/colors';
+
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const [colors, setColors] = useState(["00FFC2", "000000"]);
+  useEffect(() => {
+    const i = (Math.floor(Math.random() * 3));
+    setColors(colorPair[i]);
+  }, [])
+
   return (
     <Container checkedMenu={'Home'}>
-      <SandBox running={true} result={source} cellSize={3} />
+      <SandBox running={true} result={source} cellSize={5} colorPair={colors} />
       {/* <div className={`relative h-[500px]`}>      </div> */}
     </Container >
   );
