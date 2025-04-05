@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Container from "../components/Container";
+import Container from "./common/Container";
 import Image from 'next/image';
 import AOS from 'aos';
 import 'aos/dist/aos.css';

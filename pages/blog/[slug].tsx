@@ -1,5 +1,5 @@
 import React from "react";
-import Container from "components/Container";
+import Container from "@/components/common/Container";
 import { allPosts } from ".contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
 import { useMDXComponent } from "next-contentlayer/hooks";
@@ -52,7 +52,7 @@ const components: MDXComponents = {
   ),
   h3: (props) => (
     <h3
-      className="mt-8 mb-4 text-xl font-semibold text-slate-900 inline-block bg-my-highlight tracking-tight"
+      className="mt-8 mb-4 text-xl font-semibold text-slate-900 inline-block bg-primary tracking-tight"
       {...props}
     />
   ),

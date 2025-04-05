@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import metadata from "../data/metadata";
+import metadata from "../../data/metadata";
 import Head from "next/head";
 import Nav from "./Nav";
 import FullHeightLine from "./FullHeightLine";

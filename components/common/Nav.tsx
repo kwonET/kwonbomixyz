@@ -1,4 +1,4 @@
-import navlinks from "../data/navlinks";
+import navlinks from "../../data/navlinks";
 import Link from "next/link";
 
 const Nav = (props) => {
@@ -11,7 +11,7 @@ const Nav = (props) => {
 
       {navlinks.map((nav) => (
         <Link href={nav.link} key={nav.title} legacyBehavior>
-          <a className={`${tmpCheckedMenu == nav.title ? 'bg-my-highlight' : 'bg-my-gray'} text-base font-medium`}>{nav.title}</a>
+          <a className={`${tmpCheckedMenu == nav.title ? 'bg-primary' : 'bg-bg-gray'} text-base font-medium`}>{nav.title}</a>
         </Link>
       ))}
 

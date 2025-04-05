@@ -1,12 +1,11 @@
 import * as React from 'react'
-import Container from "../components/Container";
+import Container from "../components/common/Container";
 import metadata from "../data/metadata";
-import RecentPosts from "../components/RecentPosts";
 import { allPosts } from ".contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
-import P5jsContainerCSR from '@/components/P5js/P5jsContainerCSR';
-import SandBox from '@/components/P5js/SandBox';
-import source from '../components/HomeContents/sourcecode'
+import P5jsContainerCSR from '@/components/p5js/P5jsContainerCSR';
+import SandBox from '@/components/p5js/SandBox';
+import source from '../data/sourcecode'
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Container checkedMenu={'Home'}>

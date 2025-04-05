@@ -1,4 +1,4 @@
-import Container from "../components/Container";
+import Container from "../components/common/Container";
 import BlogPost from "../components/BlogPost";
 import { allPosts } from ".contentlayer/generated";
 import { InferGetStaticPropsType } from "next";

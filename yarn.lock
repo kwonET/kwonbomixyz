@@ -13,9 +13,9 @@
   integrity sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==
 
 "@babel/runtime@^7.16.3", "@babel/runtime@^7.23.2":
-  version "7.24.0"
-  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.24.0.tgz"
-  integrity sha512-Chk32uHMg6TnQdvw2e9IlqPpFX/6NLuK0Ys2PqLb7/gL5uFn9mXvK715FGLlOLQrcO4qIkNHkvPGktzzXexsFw==
+  version "7.27.0"
+  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.27.0.tgz"
+  integrity sha512-VtPOkrdPHZsKc/clNqyi9WUA8TINkZ4cGk63UUE3u4pmB2k+ZMQRDuIOagv8UVd6j7k0T3+RRIb7beKTebNbcw==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -320,10 +320,10 @@
     unist-util-visit "^4.0.0"
     vfile "^5.0.0"
 
-"@next/env@^13.4.3", "@next/env@13.5.8":
-  version "13.5.8"
-  resolved "https://registry.npmjs.org/@next/env/-/env-13.5.8.tgz"
-  integrity sha512-YmiG58BqyZ2FjrF2+5uZExL2BrLr8RTQzLXNDJ8pJr0O+rPlOeDPXp1p1/4OrR3avDidzZo3D8QO2cuDv1KCkw==
+"@next/env@^13.4.3", "@next/env@13.5.11":
+  version "13.5.11"
+  resolved "https://registry.npmjs.org/@next/env/-/env-13.5.11.tgz"
+  integrity sha512-fbb2C7HChgM7CemdCY+y3N1n8pcTKdqtQLbC7/EQtPdLvlMUT9JX/dBYl8MMZAtYG4uVMyPFHXckb68q/NRwqg==
 
 "@next/eslint-plugin-next@14.1.1":
   version "14.1.1"
@@ -332,10 +332,10 @@
   dependencies:
     glob "10.3.10"
 
-"@next/swc-darwin-x64@13.5.8":
-  version "13.5.8"
-  resolved "https://registry.npmjs.org/@next/swc-darwin-x64/-/swc-darwin-x64-13.5.8.tgz"
-  integrity sha512-TpRTH5FyH4qGw0MCq6UE3yQGWtwhdDCwSE0wWcYwDWC5cpx3mGKVmAVKwDNbrpk0U5bl0tEzgxp5X4UPHWA81A==
+"@next/swc-darwin-x64@13.5.9":
+  version "13.5.9"
+  resolved "https://registry.npmjs.org/@next/swc-darwin-x64/-/swc-darwin-x64-13.5.9.tgz"
+  integrity sha512-DwdeJqP7v8wmoyTWPbPVodTwCybBZa02xjSJ6YQFIFZFZ7dFgrieKW4Eo0GoIcOJq5+JxkQyejmI+8zwDp3pwA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -3427,11 +3427,11 @@ next-sitemap@^4.2.3:
     minimist "^1.2.8"
 
 next@*, "next@^12 || ^13", next@^13.5.6:
-  version "13.5.8"
-  resolved "https://registry.npmjs.org/next/-/next-13.5.8.tgz"
-  integrity sha512-VlR7FaXpSibCs7ujOqStaDFTGSdX/NvWgLDcd47oiHUe8i63ZtNkX9intgcYAu/MxpaeEGinHaMB5mwxuzglKw==
+  version "13.5.11"
+  resolved "https://registry.npmjs.org/next/-/next-13.5.11.tgz"
+  integrity sha512-WUPJ6WbAX9tdC86kGTu92qkrRdgRqVrY++nwM+shmWQwmyxt4zhZfR59moXSI4N8GDYCBY3lIAqhzjDd4rTC8Q==
   dependencies:
-    "@next/env" "13.5.8"
+    "@next/env" "13.5.11"
     "@swc/helpers" "0.5.2"
     busboy "1.6.0"
     caniuse-lite "^1.0.30001406"
@@ -3439,15 +3439,15 @@ next@*, "next@^12 || ^13", next@^13.5.6:
     styled-jsx "5.1.1"
     watchpack "2.4.0"
   optionalDependencies:
-    "@next/swc-darwin-arm64" "13.5.8"
-    "@next/swc-darwin-x64" "13.5.8"
-    "@next/swc-linux-arm64-gnu" "13.5.8"
-    "@next/swc-linux-arm64-musl" "13.5.8"
-    "@next/swc-linux-x64-gnu" "13.5.8"
-    "@next/swc-linux-x64-musl" "13.5.8"
-    "@next/swc-win32-arm64-msvc" "13.5.8"
-    "@next/swc-win32-ia32-msvc" "13.5.8"
-    "@next/swc-win32-x64-msvc" "13.5.8"
+    "@next/swc-darwin-arm64" "13.5.9"
+    "@next/swc-darwin-x64" "13.5.9"
+    "@next/swc-linux-arm64-gnu" "13.5.9"
+    "@next/swc-linux-arm64-musl" "13.5.9"
+    "@next/swc-linux-x64-gnu" "13.5.9"
+    "@next/swc-linux-x64-musl" "13.5.9"
+    "@next/swc-win32-arm64-msvc" "13.5.9"
+    "@next/swc-win32-ia32-msvc" "13.5.9"
+    "@next/swc-win32-x64-msvc" "13.5.9"
 
 no-case@^3.0.4:
   version "3.0.4"

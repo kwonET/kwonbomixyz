@@ -45,11 +45,53 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        "my-gray": "#EAEAEA",
-        "my-lightblue": "#D0E6F8",
-        "my-blue": "#D0E6F8",
-        // 'my-highlight':'#01D7E4',
-        "my-highlight": "#00FFC2",
+        white: "#FFFFFF",
+        black: "#000000",
+
+        bg: {
+          light: "#F8F9FA",
+          DEFAULT: "#E9ECEF",
+          dark: "#DEE2E6",
+          gray: {
+            light: "#F8F9FA",
+            DEFAULT: "#E9ECEF",
+            dark: "#DEE2E6",
+          },
+        },
+
+        primary: {
+          light: "#7DFFDA",
+          DEFAULT: "#00FFC2",
+          dark: "#00C298",
+        },
+        secondary: {
+          light: "#FF7F7F",
+          DEFAULT: "#008B8B",
+          dark: "#006666",
+        },
+        font: {
+          light: "#6C757D",
+          DEFAULT: "#495057",
+          dark: "#343A40",
+          gray: {
+            light: "#CED4DA",
+            DEFAULT: "#ADB5BD",
+            dark: "#6C757D",
+          },
+        },
+
+        blue: {
+          light: "#D1ECF1",
+          DEFAULT: "#17A2B8",
+          dark: "#138496",
+        },
+
+        border: "#CED4DA",
+        gray: "#ADB5BD",
+        success: "#28A745",
+        warning: "#FFC107",
+        danger: "#DC3545",
+        link: "#0056B3",
       },
       height: {
         lvh: "101lvh",
