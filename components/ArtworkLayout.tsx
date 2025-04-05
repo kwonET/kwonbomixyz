@@ -62,13 +62,13 @@ const ArtworkLayout = ({ artworks }: {
     }, []);
 
     const getImageSize = (index: number) => {
-        return index % 4 === 0 ? 'large' : 'small';
+        return index % 3 === 0 ? 'large' : 'small';
     };
 
     return (
         <Container checkedMenu='Artwork'>
             <div className="p-20 bg-white min-h-screen mt-6">
-                <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 max-w-6xl mx-auto ">
+                <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-6 max-w-6xl mx-auto ">
                     {artworksWithEmpty.map((item, index) => (
                         item.isEmpty ? (
                             <div key={index} className={`${getImageSize(index) === 'large' ? 'col-span-1 row-span-2' : ''} `} />
