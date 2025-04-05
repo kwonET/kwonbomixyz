@@ -4,7 +4,6 @@ import Container from "../components/common/Container";
 import metadata from "../data/metadata";
 import { allPosts } from ".contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
-import P5jsContainerCSR from '@/components/p5js/P5jsContainerCSR';
 import SandBox from '@/components/p5js/SandBox';
 import source from '../data/sourcecode'
 import { colorPair } from '@/data/colors';
