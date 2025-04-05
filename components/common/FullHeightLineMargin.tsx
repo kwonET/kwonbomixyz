@@ -28,7 +28,7 @@ const FullHeightLineMargin = () => {
 
   return (
     <div
-      className="static right-0 top-0 w-px mr-[124px] bg-black"
+      className="static right-0 top-0 w-px mr-[120px] bg-black"
       style={{ height }}
     ></div>
   );

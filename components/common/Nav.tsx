@@ -7,8 +7,7 @@ const Nav = (props) => {
   checkedMenu === 'BlogDetail' ? (tmpCheckedMenu = 'Blog') : (tmpCheckedMenu = checkedMenu)
 
   return isMenu ? (
-    <nav className={`h-full w-[124px] flex flex-col items-end`}>
-
+    <nav className={`h-full w-[120px] flex-none flex flex-col items-end`}>
       {navlinks.map((nav) => (
         <Link href={nav.link} key={nav.title} legacyBehavior>
           <a className={`${tmpCheckedMenu == nav.title ? 'bg-primary' : 'bg-bg-gray'} text-base font-medium`}>{nav.title}</a>
@@ -17,7 +16,7 @@ const Nav = (props) => {
 
     </nav >
   ) : (
-    <nav className={`h-full w-[124px] flex flex-row`}>
+    <nav className={`h-full w-[120px] flex flex-row`}>
       <div className={`flex flex-col`}></div>
     </nav>
   );

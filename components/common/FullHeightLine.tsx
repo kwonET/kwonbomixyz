@@ -28,7 +28,7 @@ const FullHeightLine = () => {
 
   return (
     <div
-      className="static left-0 top-0 w-px bg-black"
+      className="static left-0 top-0 w-px  bg-black"
       style={{ height }}
     ></div>
   );

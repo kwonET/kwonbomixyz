@@ -10,9 +10,9 @@ import source from '../data/sourcecode'
 import { colorPair } from '@/data/colors';
 
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const [colors, setColors] = useState(["00FFC2", "000000"]);
+  const [colors, setColors] = useState(["00FFC2", "FFF"]);
   useEffect(() => {
-    const i = (Math.floor(Math.random() * 3));
+    const i = (Math.floor(Math.random() * 4));
     setColors(colorPair[i]);
   }, [])
 

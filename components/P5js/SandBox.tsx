@@ -78,7 +78,7 @@ const SandBox = ({ running, result, cellSize, colorPair }: SandBoxProps) => {
                 } else {
                   fill("#${colorPair[1]}"); // White for dead cells
                                 }
-                  strokeWeight(0.5);
+                  strokeWeight(1);
                   stroke('white');
                 rect(column * cellSize, row * cellSize, cellSize, cellSize);
                               }
