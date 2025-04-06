@@ -16,7 +16,7 @@ const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <Container checkedMenu='Blog' selectedPost={selectedPost}>
-      <div className={`w-full mt-20 md:mt-72 flex flex-col gap-2`}>
+      <div className={`w-full mt-20 md:mt-72 flex flex-col gap-2 pt-2 md:pt-[200px] `}>
         {posts.map((post) => (
           <BlogPost
             onPostFocus={() => handleHover(post)}

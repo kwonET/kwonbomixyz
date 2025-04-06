@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import metadata from "../data/metadata";
 import Head from "next/head";
-import Nav from "./Nav";
-import FullHeightLine from "./FullHeightLine";
-import FullHeightLineMargin from "./FullHeightLineMargin";
+import Nav from "./common/Nav"
+import FullHeightLine from "./common/FullHeightLine";
+import FullHeightLineMargin from "./common/FullHeightLineMargin";
 import { useRouter } from 'next/router';
 
 const Container = (props) => {
@@ -62,7 +62,6 @@ const Container = (props) => {
       </header>
 
       <main className="flex-1 overflow-y-auto pt-2 md:pt-[200px] px-12 md:pl-[120px] md:pr-[120px]">
-
         {props.children}
       </main>
     </div>
