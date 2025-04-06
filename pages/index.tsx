@@ -17,7 +17,7 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <Container checkedMenu={'Home'}>
-      <SandBox running={true} result={source} cellSize={5} colorPair={colors} />
+      <SandBox running={true} result={source} cellSize={7} colorPair={colors} />
       {/* <div className={`relative h-[500px]`}>      </div> */}
     </Container >
   );
