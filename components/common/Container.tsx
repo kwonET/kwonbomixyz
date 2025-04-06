@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import metadata from "../../data/metadata";
 import Head from "next/head";
-import Nav from "./Nav";
+import Nav from './Nav';
 import FullHeightLine from "./FullHeightLine";
 import FullHeightLineMargin from "./FullHeightLineMargin";
 import { useRouter } from 'next/router';
