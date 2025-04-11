@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 interface SandBoxProps {
   running: boolean;
-  result: string;
+  result?: string;
   cellSize?: number;
   colorPair?: string[];
+  key?: number;
 }
 const SandBox = ({ running, result, cellSize, colorPair }: SandBoxProps) => {
-  const srcdoc = `
+  const srcdoc = useMemo(() => {
+    return `
     <!doctype html>
     <html>
       <head>
@@ -198,7 +200,8 @@ const SandBox = ({ running, result, cellSize, colorPair }: SandBoxProps) => {
                         </script >
                       </body >
                     </html >
-                  `;
+                  `
+  }, [cellSize, colorPair]) // 해당 props가 변화할 때 recalculate
 
   // 이벤트 리스너 추가 (로그와 에러 수신)
   const [logs, setLogs] = useState<string[]>([]);
