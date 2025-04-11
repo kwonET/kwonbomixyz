@@ -13,7 +13,7 @@ const Container = (props) => {
     description: metadata.description,
     author: metadata.author,
     ...props.customMeta,
-  };s
+  };
   const handleClick = () => {
     router.replace('/')
   }
