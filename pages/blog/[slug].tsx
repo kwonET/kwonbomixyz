@@ -117,7 +117,7 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
         <div className="mdx-content prose prose-slate lg:prose-lg
           prose-headings:font-bold prose-headings:tracking-tight
           prose-pre:bg-slate-900 prose-pre:shadow-lg
-          max-w-none mt-10">
+          max-w-none pt-32">
           <div className="flex flex-col md:hidden mb-8 px-4">
             <h1 className="text-xl font-bold text-slate-900 tracking-tight my-3 leading-snug font-gothic2">{post.title}</h1>
             <div className="flex items-center space-x-2 text-sm text-slate-600  font-gothic1">
