@@ -37,6 +37,13 @@ const components: MDXComponents = {
     );
   },
 
+  // 코드 블록
+  blockquote: (props) => (
+    <blockquote className="my-6 rounded-lg p-4 text-small md:text-small-md lg:text-small-lg text-bg-light overflow-x-auto  non-italic" {...props} />
+  ),
+
+
+
   // 제목들
   h1: (props) => (
     <h1
@@ -66,7 +73,7 @@ const components: MDXComponents = {
   code: (props) => (
     <code
       className="px-1.5 py-0.5 mx-0.5 rounded-md text-bg-light
-        bg-slate-900 text-small md:text-small-md lg:text-small-lg "
+        bg-font text-small md:text-small-md lg:text-small-lg "
       {...props}
     />
   ),
@@ -76,16 +83,7 @@ const components: MDXComponents = {
     <ul className="list-disc text-body md:text-body-md lg:text-body-lg text-font space-y-2 tracking-tight w-full" {...props} />
   ),
   ol: (props) => (
-    <ol className="list-decimal text-body md:text-body-md lg:text-body-lg text-font space-y-2  ps-1 tracking-tight w-full" {...props} />
-  ),
-
-  // 블록쿼트
-  blockquote: (props) => (
-    <blockquote
-      className="my-8 border-l-2 border-slate-300
-        text-lg italic text-slate-700"
-      {...props}
-    />
+    <ol className="list-decimal text-body md:text-body-md lg:text-body-lg text-font space-y-2  tracking-tight w-full" {...props} />
   ),
 
   // 링크
@@ -115,13 +113,13 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <Container customMeta={customMeta} checkedMenu='BlogDetail'>
-      <article className="mx-auto lg:px-0 my-16 max-w-3xl font-pretendard">
+      <article className="mx-auto lg:px-0 my-16 max-w-[700px] font-pretendard">
         <div className="mdx-content prose prose-slate lg:prose-lg
           prose-headings:font-bold prose-headings:tracking-tight
           prose-pre:bg-slate-900 prose-pre:shadow-lg
-          max-w-none">
+          max-w-none mt-10">
           <div className="flex flex-col md:hidden mb-8 px-4">
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight my-3 leading-snug  font-gothic2">{post.title}</h1>
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight my-3 leading-snug font-gothic2">{post.title}</h1>
             <div className="flex items-center space-x-2 text-sm text-slate-600  font-gothic1">
               <time dateTime={post.date}>{customMeta.date}</time>
               {post.tag && (

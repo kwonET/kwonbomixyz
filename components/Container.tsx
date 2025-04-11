@@ -61,7 +61,7 @@ const Container = (props) => {
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto pt-2 md:pt-[200px] px-12 md:pl-[120px] md:pr-[120px]">
+      <main className="flex justify-center overflow-y-auto pt-[200px] md:pt-[200px] px-8 md:pl-[120px] md:pr-[120px] ">
         {props.children}
       </main>
     </div>
