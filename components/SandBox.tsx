@@ -6,7 +6,7 @@ interface SandBoxProps {
   colorPair?: string[];
 }
 const SandBox = ({ running, result, cellSize, colorPair }: SandBoxProps) => {
-  const srcdoc = (src: string): string => `
+  const srcdoc = `
     <!doctype html>
     <html>
       <head>
@@ -217,7 +217,6 @@ const SandBox = ({ running, result, cellSize, colorPair }: SandBoxProps) => {
         // JSON 파싱 에러 처리
       }
     };
-    console.log(colorPair);
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
@@ -232,13 +231,12 @@ const SandBox = ({ running, result, cellSize, colorPair }: SandBoxProps) => {
   }
 
   return (
-
     <div className="w-full h-screen">
       <iframe
         title="p5-sandbox"
         width="100%"
         height="100%"
-        srcDoc={srcdoc(result)}
+        srcDoc={srcdoc}
         sandbox="allow-scripts"
         allow="accelerometer; camera; microphone; gamepad"
       />

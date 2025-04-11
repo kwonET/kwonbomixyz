@@ -17,7 +17,7 @@
     "paths": {
       "contentlayer/generated": ["./.contentlayer/generated"],
       "@components/*": ["./components/*"],
-      "@components/p5js/*": ["./components/p5js/*"],
+      "@components/p5js/*": ["components/P5js/*"],
       "@/*": ["./*"]
     }
   },
@@ -26,6 +26,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".contentlayer/generated"
-, "components/p5js/SandBox.jsx"  ],
+, "components/P5js/SandBox.jsx"  ],
   "exclude": ["node_modules"]
 }
