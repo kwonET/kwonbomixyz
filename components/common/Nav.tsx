@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import navlinks from "../../data/navlinks";
 import Link from "next/link";
 

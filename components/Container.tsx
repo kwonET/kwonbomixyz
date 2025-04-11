@@ -28,7 +28,7 @@ const Container = (props) => {
       <header className="fixed top-0 left-0 right-0 bg-white z-50">
         <div className="flex flex-col p-1 -mt-1">
           <div className="flex flex-row items-center">
-            <span className="ml-2 md:ml-6 mt-6 text-lg md:text-xl font-medium" onClick={handleClick}>{metadata.title}</span>
+            <span className="ml-2 md:ml-6 mt-6 text-lg md:text-xl font-medium cursor-pointer" onClick={handleClick}>{metadata.title}</span>
           </div>
           <div className="max-w-screen h-px bg-black -mt-2"></div>
           <div className={`hidden md:flex relative ${props.checkedMenu === 'Blog' ? 'h-[418px]' : 'h-[theme(containerHeight.home-height)]'} w-full`}>

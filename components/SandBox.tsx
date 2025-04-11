@@ -217,6 +217,7 @@ const SandBox = ({ running, result, cellSize, colorPair }: SandBoxProps) => {
         // JSON 파싱 에러 처리
       }
     };
+    console.log(colorPair);
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
