@@ -16,19 +16,19 @@ const config: Config = {
     extend: {
       fontSize: {
         // 모바일 (600px 이하)
-        h1: ["1.875rem", { lineHeight: "1.4", fontWeight: "600" }], // 30px
-        h2: ["1.625rem", { lineHeight: "1.4", fontWeight: "600" }], // 26px
-        h3: ["1.25rem", { lineHeight: "1.4", fontWeight: "600" }], // 20px
-        h4: ["1.125rem", { lineHeight: "1.4", fontWeight: "600" }], // 18px
-        body: ["1rem", { lineHeight: "1.4", fontWeight: "400" }], // 16px
-        small: ["0.875rem", { lineHeight: "1.4", fontWeight: "400" }], // 14px
+        h1: ["1.875rem", { lineHeight: "1.75", fontWeight: "600" }], // 30px
+        h2: ["1.625rem", { lineHeight: "1.75", fontWeight: "600" }], // 26px
+        h3: ["1.25rem", { lineHeight: "1.75", fontWeight: "600" }], // 20px
+        h4: ["1.125rem", { lineHeight: "1.75", fontWeight: "600" }], // 18px
+        body: ["1rem", { lineHeight: "1.75", fontWeight: "400" }], // 16px
+        small: ["0.875rem", { lineHeight: "1.75", fontWeight: "400" }], // 14px
 
         // 태블릿 (601px - 1023px)
         "h1-md": ["2.5rem", { lineHeight: "1.4", fontWeight: "600" }], // 40px
         "h2-md": ["2rem", { lineHeight: "1.4", fontWeight: "600" }], // 32px
         "h3-md": ["1.5rem", { lineHeight: "1.4", fontWeight: "600" }], // 24px
         "h4-md": ["1.125rem", { lineHeight: "1.4", fontWeight: "600" }], // 18px
-        "body-md": ["1rem", { lineHeight: "1.4", fontWeight: "400" }], // 16px
+        "body-md": ["1rem", { lineHeight: "1.75", fontWeight: "400" }], // 16px
         "small-md": ["0.875rem", { lineHeight: "1.4", fontWeight: "400" }], // 14px
 
         // 데스크톱 (1024px 이상)
@@ -36,7 +36,7 @@ const config: Config = {
         "h2-lg": ["2.25rem", { lineHeight: "1.4", fontWeight: "600" }], // 36px
         "h3-lg": ["1.5rem", { lineHeight: "1.4", fontWeight: "600" }], // 24px
         "h4-lg": ["1.125rem", { lineHeight: "1.4", fontWeight: "600" }], // 18px
-        "body-lg": ["1rem", { lineHeight: "1.4", fontWeight: "400" }], // 16px
+        "body-lg": ["1rem", { lineHeight: "1.75", fontWeight: "400" }], // 16px
         "small-lg": ["0.75rem", { lineHeight: "1.4", fontWeight: "400" }], // 12px
       },
       fontFamily: {

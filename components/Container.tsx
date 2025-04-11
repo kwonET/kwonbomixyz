@@ -23,7 +23,7 @@ const Container = (props) => {
         <title>{metadata.title}</title>
         <meta content={meta.description} name="description" />
         <meta property="og:site_name" content={meta.author} />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1, minimum-scale=1" />
       </Head>
       <header className="fixed top-0 left-0 right-0 bg-white z-50">
         <div className="flex flex-col p-1 -mt-1">

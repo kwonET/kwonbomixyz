@@ -10,10 +10,10 @@ import { MDXComponents } from 'mdx/types';
 const components: MDXComponents = {
   // 이미지
   img: (props) => (
-    <span className="block my-6">
+    <span className="block">
       <img
         {...props}
-        className="w-full "
+        className="w-full"
         style={{ maxWidth: '100%', height: 'auto' }}
       />
     </span>
@@ -29,7 +29,7 @@ const components: MDXComponents = {
 
     return (
       <p
-        className="mt-6 mb-4 text-base md:text-lg leading-7 text-slate-700"
+        className="text-body md:text-body-md lg:text-body-lg text-font"
         {...props}
       >
         {children}
@@ -40,43 +40,43 @@ const components: MDXComponents = {
   // 제목들
   h1: (props) => (
     <h1
-      className="mt-16 mb-4 text-4xl font-extrabold text-slate-900 tracking-tight"
+      className="text-h4 md:text-h4-md lg:text-h4-lg text-font-dark tracking-tight"
       {...props}
     />
   ),
   h2: (props) => (
     <h2
-      className="mt-12 mb-4 text-2xl font-bold text-slate-900 tracking-tight"
+      className="text-h4 md:text-h4-md lg:text-h4-lg text-font-dark tracking-tight"
       {...props}
     />
   ),
   h3: (props) => (
     <h3
-      className="mt-8 mb-4 text-xl font-semibold text-slate-900 inline-block bg-primary tracking-tight"
+      className="text-h4 md:text-h4-md lg:text-h4-lg text-font-dark inline-block bg-primary tracking-tight"
       {...props}
     />
   ),
 
   // 코드 블록
   pre: (props) => (
-    <pre className="my-6 rounded-lg bg-slate-900 p-4 text-sm leading-6 text-slate-50 overflow-x-auto" {...props} />
+    <pre className="my-6 rounded-lg p-4 text-small md:text-small-md lg:text-small-lg text-bg-light overflow-x-auto" {...props} />
   ),
 
   // 인라인 코드
   code: (props) => (
     <code
-      className="px-1.5 py-0.5 mx-0.5 rounded-md bg-slate-100 
-        text-slate-900 font-mono text-[0.875em]"
+      className="px-1.5 py-0.5 mx-0.5 rounded-md text-bg-light
+        bg-slate-900 text-small md:text-small-md lg:text-small-lg "
       {...props}
     />
   ),
 
   // 리스트
   ul: (props) => (
-    <ul className="my-6 list-disc  text-base md:text-lg  text-slate-700 space-y-2" {...props} />
+    <ul className="list-disc text-body md:text-body-md lg:text-body-lg text-font space-y-2 tracking-tight w-full" {...props} />
   ),
   ol: (props) => (
-    <ol className="my-6  list-decimal  text-base md:text-lg  text-slate-700 space-y-2" {...props} />
+    <ol className="list-decimal text-body md:text-body-md lg:text-body-lg text-font space-y-2  ps-1 tracking-tight w-full" {...props} />
   ),
 
   // 블록쿼트
