@@ -16,6 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "contentlayer/generated": ["./.contentlayer/generated"],
+      "@components/*": ["components/*"],
+      "@components/p5js/*": ["components/p5js/*"],
       "@/*": ["./*"]
     }
   },
