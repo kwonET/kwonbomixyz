@@ -6,7 +6,6 @@ interface SandBoxProps {
   colorPair?: string[];
 }
 const SandBox = ({ running, result, cellSize, colorPair }: SandBoxProps) => {
-
   const srcdoc = (src: string): string => `
     <!doctype html>
     <html>
