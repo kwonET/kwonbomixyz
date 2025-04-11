@@ -26,6 +26,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".contentlayer/generated"
-  ],
+, "components/p5js/SandBox.jsx"  ],
   "exclude": ["node_modules"]
 }
