@@ -27,7 +27,7 @@ const Circle = () => {
         return () => clearInterval(interval);
     }, [])
     return (
-        <div className='relative w-36 h-36 bg-font-dark rounded-full transition-all duration'>
+        <div className='relative w-36 h-36 rounded-full border border-font-dark bg-bg-light transition-all duration'>
             {radians?.map((radian, index) => (
                 <div
                     key={index}
