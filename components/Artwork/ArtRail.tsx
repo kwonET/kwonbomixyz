@@ -1,37 +1,54 @@
 import React from 'react';
 import Image from 'next/image';
-const ArtBlock = ({ artworks }: {
-    artworks: { source: string; tag: string; description: string }[]
+const ArtBlock = ({ artwork }: {
+    artwork: {
+        source: string;
+        tag: string;
+        description: string;
+        title: string;
+        date: string;
+        type: string;
+    }
 }) => {
     return (
-        <div className='h-80 min-w-60 border border-stone-900 flex flex-col content-between p-3 '>
-            <div className='h-full flex flex-col justify-between'>
-                <div>title</div>
+        <div className='min-w-80 min-h-96 border-y-[1px] border-x-[0.5px] border-stone-900 flex flex-col content-between p-3 shrink-0'>
+            <div className='h-full flex flex-col justify-between' >
+                <div>{artwork?.title}</div>
                 <div className='flex justify-between'>
-                    <div>Interactive Art</div>
-                    <div>2024.10.24</div>
+                    <div>{artwork?.type}</div>
+                    <div>{artwork?.date}</div>
                 </div>
-            </div>
+            </div >
             <div
-                className={`mt-3 relative m-w-60 m-h-60 h-80 bg-bg-gray overflow-hidden cursor-pointer transition-all duration-300 '}`}
+                className='mt-3 relative min-h-52 bg-bg-gray overflow-hidden cursor-pointer transition-all duration-300 '
             >
-                {/* <Image
-                src={ }
-                className={`w-full h-full object-cover transition-all duration-300`}
-                width={1600}
-                height={900}
-            /> */}
+                <Image
+                    src={artwork.source}
+                    alt={artwork.description}
+                    className={`w-full h-full object-fit transition-all duration-300`}
+                    width={200}
+                    height={100}
+                />
             </div>
-        </div>)
+        </div >)
 }
 
 const ArtRail = ({ artworks }: {
-    artworks: { source: string; tag: string; description: string }[]
+    artworks: {
+        source: string;
+        tag: string;
+        description: string;
+        title: string;
+        date: string;
+        type: string;
+    }[]
 }) => {
     return (
-        <div>
-            <ArtBlock artworks={artworks} />
-        </div>
+        <div className="w-full absolute bottom-0 overflow-hidden">
+            <div className="flex overflow-x-auto scrollbar-hide">
+                {artworks.map((artwork, index) => <ArtBlock key={index} artwork={artwork} />)}
+            </div>
+        </div >
     );
 };
 

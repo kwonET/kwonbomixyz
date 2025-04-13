@@ -17,6 +17,7 @@ const Container = (props) => {
   const handleClick = () => {
     router.replace('/')
   }
+
   return (
     <div className="flex flex-col h-screen overflow-hidden font-gothic1">
       <Head>
@@ -61,10 +62,10 @@ const Container = (props) => {
         </div>
       </header>
 
-      <main className="flex justify-center overflow-y-auto pt-[200px] md:pt-[200px] px-8 md:pl-[120px] md:pr-[120px] ">
+      <main className={`flex ${props.checkedMenu === "Artwork" ? '' : 'justify-center '} overflow-y-auto pt-[200px] md:pt-[200px] px-8 md:pl-[124px] md:pr-[120px]`}>
         {props.children}
       </main>
-    </div>
+    </div >
   );
 };
 

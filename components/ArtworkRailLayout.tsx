@@ -3,12 +3,19 @@ import Container from './Container';
 import Circle from './Artwork/Circle';
 import ArtRail from './Artwork/ArtRail';
 const ArtworkRailLayout = ({ artworks }: {
-    artworks: { source: string; tag: string; description: string }[]
+    artworks: {
+        source: string;
+        tag: string;
+        description: string;
+        title: string;
+        date: string;
+        type: string;
+    }[]
 }) => {
     return (
         <>
             <Container checkedMenu='Artwork'>
-                <div className=" bg-white min-h-screen md:pt-[200px] ">
+                <div className="bg-white">
                     <Circle />
                     <ArtRail artworks={artworks} />
                 </div>
