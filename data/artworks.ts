@@ -1,4 +1,8 @@
-const artworkSources: { source: string; tag: string; description: string }[] = [
+export const artworkSources: {
+  source: string;
+  tag: string;
+  description: string;
+}[] = [
   { source: "/geom_1.png", tag: "/", description: "geom_1" },
   { source: "/geom_2.png", tag: "/", description: "geom_2" },
   { source: "/geom_3.png", tag: "/", description: "geom_3" },
@@ -28,4 +32,11 @@ const artworkSources: { source: string; tag: string; description: string }[] = [
   { source: "/webchoom_5.png", tag: "/", description: "webchoom_5" },
   { source: "/webchoom_6.png", tag: "/", description: "webchoom_6" },
 ];
-export default artworkSources;
+
+export const artworkTitle: string[] = [
+  "점철의 움직임",
+  "웹-춤",
+  "삼각공간",
+  "웰컴-인터랙션",
+  "간판",
+];
