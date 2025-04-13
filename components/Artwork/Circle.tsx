@@ -23,22 +23,22 @@ const Circle = () => {
                 }
                 return newRadians;
             })
-        }, 1000)
+        }, 2000)
         return () => clearInterval(interval);
     }, [])
     return (
-        <div className='relative w-24 h-24 bg-blue-light rounded-full transition-all duration-500'>
+        <div className='relative w-36 h-36 bg-font-dark rounded-full transition-all duration'>
             {radians?.map((radian, index) => (
                 <div
                     key={index}
-                    className='absolute w-3 h-3 bg-white rounded-full'
+                    className='absolute bg-white'
                     style={{
-                        left: `calc(50% + ${Math.cos(radian) * 48}px)`,
-                        top: `calc(50% + ${Math.sin(radian) * 48}px)`,
+                        left: `calc(50% + ${Math.cos(radian) * 64}px)`,
+                        top: `calc(50% + ${Math.sin(radian) * 64}px)`,
                         transform: `translate(-50%, -50%)`,
                     }}
                 >
-                    {index}
+                    {artworkTitle[index]}
                 </div>
             ))}
         </div>
