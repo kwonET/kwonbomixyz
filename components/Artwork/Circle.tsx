@@ -14,11 +14,20 @@ const Circle = () => {
         setRadians(arr);
     }, [])
     useEffect(() => {
-        console.log(radians);
-
+        const interval = setInterval(() => {
+            setRadians(prevRadians => {
+                const newRadians = [...prevRadians];
+                for (let i = 0; i < newRadians.length; i++) {
+                    const nextIndex = (i + 1) % newRadians.length;
+                    newRadians[i] = prevRadians[nextIndex];
+                }
+                return newRadians;
+            })
+        }, 1000)
+        return () => clearInterval(interval);
     }, [])
     return (
-        <div className='relative w-24 h-24 bg-blue-light rounded-full flex items-center justify-center  animate-spin'>
+        <div className='relative w-24 h-24 bg-blue-light rounded-full transition-all duration-500'>
             {radians?.map((radian, index) => (
                 <div
                     key={index}
@@ -27,12 +36,9 @@ const Circle = () => {
                         left: `calc(50% + ${Math.cos(radian) * 48}px)`,
                         top: `calc(50% + ${Math.sin(radian) * 48}px)`,
                         transform: `translate(-50%, -50%)`,
-                        animationDuration: '1s',
-                        animationTimingFunction: 'linear',
-                        animationIterationCount: 'infinite'
                     }}
                 >
-                    hi
+                    {index}
                 </div>
             ))}
         </div>
