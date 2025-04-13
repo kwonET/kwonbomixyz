@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import metadata from "../data/metadata";
+import metadata from '../data/metadata';
 import Head from "next/head";
 import Nav from "./common/Nav"
 import FullHeightLine from "./common/FullHeightLine";
@@ -62,7 +62,7 @@ const Container = (props) => {
         </div>
       </header>
 
-      <main className={`flex ${props.checkedMenu === "Artwork" ? '' : 'justify-center '} overflow-y-auto pt-[200px] md:pt-[200px] px-8 md:pl-[124px] md:pr-[120px]`}>
+      <main className={`flex ${props.checkedMenu === "Artwork" ? 'w-full' : 'justify-center '} overflow-y-auto pt-[200px] md:pt-[200px] px-8 md:pl-[124px] md:pr-[120px]`}>
         {props.children}
       </main>
     </div >

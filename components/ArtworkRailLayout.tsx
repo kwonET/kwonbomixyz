@@ -17,8 +17,8 @@ const ArtworkRailLayout = ({ artworks }: {
             <Container checkedMenu='Artwork'>
                 <div className="bg-white">
                     <Circle />
-                    <ArtRail artworks={artworks} />
                 </div>
+                <ArtRail artworks={artworks} />
             </Container>
         </>
     );

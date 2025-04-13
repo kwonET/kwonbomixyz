@@ -43,11 +43,13 @@ const ArtRail = ({ artworks }: {
         type: string;
     }[]
 }) => {
+    const duplicatedArtworks = [...artworks, ...artworks];
+
     return (
-        <div className="w-full absolute bottom-0 overflow-hidden">
-            <div className="flex overflow-x-auto scrollbar-hide">
-                {artworks.map((artwork, index) => <ArtBlock key={index} artwork={artwork} />)}
-            </div>
+        <div className='absolute bottom-0 art-rail-container' style={{ width: 'calc(100% - 250px)' }}>
+            <div className="infinite-scroll">
+                {duplicatedArtworks.map((artwork, index) => <ArtBlock key={index} artwork={artwork} />)}
+            </div >
         </div >
     );
 };
