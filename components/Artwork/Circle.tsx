@@ -31,7 +31,7 @@ const Circle = () => {
             {radians?.map((radian, index) => (
                 <div
                     key={index}
-                    className='absolute bg-white'
+                    className='absolute bg-white text-small'
                     style={{
                         left: `calc(50% + ${Math.cos(radian) * 64}px)`,
                         top: `calc(50% + ${Math.sin(radian) * 64}px)`,
