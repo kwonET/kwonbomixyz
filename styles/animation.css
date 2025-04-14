@@ -16,7 +16,7 @@
 
 .infinite-scroll {
   display: flex;
-  animation: infiniteScroll 150s linear infinite;
+  animation: infiniteScroll 250s linear infinite;
   width: fit-content;
 }
 

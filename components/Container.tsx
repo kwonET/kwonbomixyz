@@ -62,7 +62,7 @@ const Container = (props) => {
         </div>
       </header>
 
-      <main className={`flex ${props.checkedMenu === "Artwork" ? 'w-full' : 'justify-center '} overflow-y-auto pt-[200px] md:pt-[200px] px-8 md:pl-[124px] md:pr-[120px]`}>
+      <main className={`flex ${props.checkedMenu === "Artwork" ? 'w-full' : 'justify-center '} overflow-y-auto pt-[200px] md:pt-[200px] px-5 md:pl-[124px] md:pr-[120px]`}>
         {props.children}
       </main>
     </div >

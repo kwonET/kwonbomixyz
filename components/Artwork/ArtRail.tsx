@@ -46,11 +46,18 @@ const ArtRail = ({ artworks }: {
     const duplicatedArtworks = [...artworks, ...artworks];
 
     return (
-        <div className='absolute bottom-0 art-rail-container' style={{ width: 'calc(100% - 250px)' }}>
-            <div className="infinite-scroll">
-                {duplicatedArtworks.map((artwork, index) => <ArtBlock key={index} artwork={artwork} />)}
+        <>
+            <div className='block md:hidden absolute bottom-0 art-rail-container' style={{ width: 'calc(100% - 40px)' }}>
+                <div className="infinite-scroll">
+                    {duplicatedArtworks.map((artwork, index) => <ArtBlock key={index} artwork={artwork} />)}
+                </div >
             </div >
-        </div >
+
+            <div className='hidden md:block absolute bottom-0 art-rail-container' style={{ width: 'calc(100% - 250px)' }}>
+                <div className="infinite-scroll">
+                    {duplicatedArtworks.map((artwork, index) => <ArtBlock key={index} artwork={artwork} />)}
+                </div >
+            </div ></>
     );
 };
 
