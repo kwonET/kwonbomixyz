@@ -1,13 +1,11 @@
-import * as React from 'react'
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import Container from "../components/common/Container";
-import metadata from "../data/metadata";
 import { allPosts } from ".contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
-import SandBox from '../components/SandBox';
-import source from '../data/sourcecode'
-import { colorPair } from '../data/colors'
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Container from "../components/common/Container";
+import SandBox from "../components/SandBox";
+import { colorPair } from "../data/colors";
+import source from "../data/sourcecode";
 
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
@@ -15,31 +13,37 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [key, setKey] = useState(0);
 
   const setRandomColors = () => {
-    const i = (Math.floor(Math.random() * 4));
+    const i = Math.floor(Math.random() * 4);
     setColors(colorPair[i]);
-    setKey(prevKey => prevKey + 1)
-  }
+    setKey((prevKey) => prevKey + 1);
+  };
   useEffect(() => {
     setRandomColors();
-  }, [])
+  }, []);
   const changeColors = () => {
     setRandomColors();
-  }
+  };
 
   useEffect(() => {
     const handleRouteComplete = (url: string) => {
-      if (url === '/' || url.startsWith('/?')) {
+      if (url === "/" || url.startsWith("/?")) {
         setRandomColors();
       }
-    }
-    router.events.on('routeChangeComplete', handleRouteComplete);
+    };
+    router.events.on("routeChangeComplete", handleRouteComplete);
     return () => {
-      router.events.off('routeChangeComplete', handleRouteComplete);
-    }
-  })
+      router.events.off("routeChangeComplete", handleRouteComplete);
+    };
+  });
   return (
-    <Container checkedMenu={'Home'}>
-      <SandBox key={key} running={true} result={source} cellSize={7} colorPair={colors} />
+    <Container checkedMenu={"Home"}>
+      <SandBox
+        key={key}
+        running={true}
+        result={source}
+        cellSize={7}
+        colorPair={colors}
+      />
       {/* <div className="text-center">
         <button
           onClick={changeColors}
@@ -48,7 +52,7 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
           Change Colors
         </button>
       </div> */}
-    </Container >
+    </Container>
   );
 };
 export const getStaticProps = async () => {
