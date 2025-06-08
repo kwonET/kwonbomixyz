@@ -11,15 +11,60 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
   const [colors, setColors] = useState(["00FFC2", "FFF"]);
   const [key, setKey] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
+  const [showIntro, setShowIntro] = useState(false);
+  const [windowHeight, setWindowHeight] = useState(1000); // 기본값 설정
 
   const setRandomColors = () => {
     const i = Math.floor(Math.random() * 4);
     setColors(colorPair[i]);
     setKey((prevKey) => prevKey + 1);
   };
+
   useEffect(() => {
     setRandomColors();
+    // 클라이언트 사이드에서 window.innerHeight 설정
+    if (typeof window !== "undefined") {
+      setWindowHeight(window.innerHeight);
+    }
   }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          setScrollY(currentScrollY);
+
+          // 스크롤이 50vh 이상일 때 자기소개 표시
+          if (currentScrollY > windowHeight * 0.5) {
+            setShowIntro(true);
+          } else {
+            setShowIntro(false);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [windowHeight]);
+
   const changeColors = () => {
     setRandomColors();
   };
@@ -35,24 +80,108 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
       router.events.off("routeChangeComplete", handleRouteComplete);
     };
   });
+
+  // 스크롤 기반 opacity 계산 (0에서 시작해서 점진적으로 사라짐)
+  const sandboxOpacity = Math.max(0, 1 - scrollY / windowHeight);
+  // 스크롤 진행도 계산 (0-1)
+  const scrollProgress = Math.min(1, scrollY / windowHeight);
+
   return (
-    <Container checkedMenu={"Home"}>
-      <SandBox
-        key={key}
-        running={true}
-        result={source}
-        cellSize={7}
-        colorPair={colors}
-      />
-      {/* <div className="text-center">
-        <button
-          onClick={changeColors}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+    <div className="relative">
+      <Container checkedMenu={"Home"}>
+        {/* P5.js SandBox - 스크롤시 점차 사라짐 */}
+        <div
+          className="fixed top-0 left-0 w-full h-screen transition-opacity duration-300"
+          style={{
+            opacity: sandboxOpacity,
+            pointerEvents: "none", // iframe 자체에서 pointer-events를 제어하므로 여기서는 none
+          }}
         >
-          Change Colors
-        </button>
-      </div> */}
-    </Container>
+          <SandBox
+            key={key}
+            running={true}
+            result={source}
+            cellSize={7}
+            colorPair={colors}
+            scrollProgress={scrollProgress}
+          />
+        </div>
+
+        {/* 스크롤 유도 아이콘 */}
+        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
+          <div className="animate-bounce">
+            <svg
+              className="w-6 h-6 text-white opacity-70"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+          </div>
+        </div>
+
+        {/* 자기소개 섹션 */}
+        <div className="min-h-screen">
+          {/* 첫 번째 섹션 - 빈 공간 (SandBox가 보이는 구간) */}
+          <div className="h-screen"></div>
+
+          {/* 두 번째 섹션 - 자기소개 */}
+          <div
+            className={`min-h-screen bg-gradient-to-b from-transparent to-black/90 backdrop-blur-sm flex items-center justify-center transition-opacity duration-700 ${
+              showIntro ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <div className="max-w-4xl mx-auto px-6 text-center text-white">
+              <h1 className="text-6xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
+                안녕하세요
+              </h1>
+              <h2 className="text-3xl mb-6 font-light">개발자 권보미입니다</h2>
+              <p className="text-xl leading-relaxed mb-8 text-gray-300">
+                창의적인 아이디어를 코드로 구현하는 것을 좋아하는 풀스택
+                개발자입니다.
+                <br />
+                사용자 경험을 중시하며, 아름답고 직관적인 인터페이스를 만들기
+                위해 노력합니다.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                <div className="p-6 bg-white/10 rounded-lg backdrop-blur-sm">
+                  <h3 className="text-xl font-semibold mb-3">Frontend</h3>
+                  <p className="text-gray-300">
+                    React, Next.js, TypeScript, Tailwind CSS
+                  </p>
+                </div>
+                <div className="p-6 bg-white/10 rounded-lg backdrop-blur-sm">
+                  <h3 className="text-xl font-semibold mb-3">Backend</h3>
+                  <p className="text-gray-300">
+                    Node.js, Python, Database Design
+                  </p>
+                </div>
+                <div className="p-6 bg-white/10 rounded-lg backdrop-blur-sm">
+                  <h3 className="text-xl font-semibold mb-3">Creative</h3>
+                  <p className="text-gray-300">
+                    P5.js, Interactive Design, Animation
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-12">
+                <button
+                  onClick={changeColors}
+                  className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                >
+                  색상 변경하기
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </div>
   );
 };
 export const getStaticProps = async () => {
