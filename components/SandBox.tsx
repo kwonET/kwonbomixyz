@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from "react";
 interface SandBoxProps {
   running: boolean;
   result?: string;
@@ -81,7 +81,7 @@ const SandBox = ({ running, result, cellSize, colorPair }: SandBoxProps) => {
                                 }
                   strokeWeight(1);
                   stroke('white');
-                rect(column * cellSize, row * cellSize, cellSize, cellSize);
+                rect(column * cellSize, row * cellSize, cellSize);
                               }
                             }
                           }
@@ -200,8 +200,8 @@ const SandBox = ({ running, result, cellSize, colorPair }: SandBoxProps) => {
                         </script >
                       </body >
                     </html >
-                  `
-  }, [cellSize, colorPair]) // 해당 props가 변화할 때 recalculate
+                  `;
+  }, [cellSize, colorPair]); // 해당 props가 변화할 때 recalculate
 
   // 이벤트 리스너 추가 (로그와 에러 수신)
   const [logs, setLogs] = useState<string[]>([]);
@@ -210,10 +210,10 @@ const SandBox = ({ running, result, cellSize, colorPair }: SandBoxProps) => {
     const handleMessage = (event: MessageEvent) => {
       try {
         const data = JSON.parse(event.data);
-        if (data.type === 'log') {
-          setLogs(prevLogs => [...prevLogs, ...data.data]);
-        } else if (data.type === 'error') {
-          console.error('Sketch error:', data.data);
+        if (data.type === "log") {
+          setLogs((prevLogs) => [...prevLogs, ...data.data]);
+        } else if (data.type === "error") {
+          console.error("Sketch error:", data.data);
           // 에러 UI 표시 로직 추가
         }
       } catch (e) {
@@ -221,8 +221,8 @@ const SandBox = ({ running, result, cellSize, colorPair }: SandBoxProps) => {
       }
     };
 
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
   }, []);
 
   if (!running) {

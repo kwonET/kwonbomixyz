@@ -1,10 +1,12 @@
 import React from 'react';
-import artworkSources from 'data/artworks';
+import { artworkSources } from '@/data/artworks';
 import ArtworkLayout from 'components/ArtworkLayout';
-
+import ArtworkRailLayout from 'components/ArtworkRailLayout';
 const Artwork = () => {
     return (
-        <ArtworkLayout artworks={artworkSources} />
+        <>
+            <ArtworkRailLayout artworks={artworkSources} />
+        </>
     );
 };
 
