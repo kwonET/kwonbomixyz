@@ -3,6 +3,7 @@ import Container from "./common/Container";
 import Image from 'next/image';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Circle from './Artwork/Circle';
 
 const ArtworkLayout = ({ artworks }: {
     artworks: { source: string; tag: string; description: string }[]
@@ -68,6 +69,7 @@ const ArtworkLayout = ({ artworks }: {
     return (
         <Container checkedMenu='Artwork'>
             <div className="p-20 bg-white min-h-screen mt-6 pt-2 md:pt-[200px] ">
+                <Circle />
                 <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-6 max-w-6xl mx-auto ">
                     {artworksWithEmpty.map((item, index) => (
                         item.isEmpty ? (

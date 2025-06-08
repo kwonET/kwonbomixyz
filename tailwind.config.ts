@@ -14,6 +14,9 @@ const config: Config = {
       xl: "1440px",
     },
     extend: {
+      animation: {
+        "spin-slow": "spin 3s linear infinite",
+      },
       fontSize: {
         // 모바일 (600px 이하)
         h1: ["1.875rem", { lineHeight: "1.75", fontWeight: "600" }], // 30px

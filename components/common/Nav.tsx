@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import navlinks from "../../data/navlinks";
+import navlinks from "@/data/navlink";
 import Link from "next/link";
 
 const Nav = (props) => {

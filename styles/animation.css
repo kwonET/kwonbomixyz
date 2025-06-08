@@ -1,0 +1,26 @@
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+@keyframes infiniteScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.infinite-scroll {
+  display: flex;
+  animation: infiniteScroll 250s linear infinite;
+  width: fit-content;
+}
+
+.art-rail-container {
+  overflow: hidden;
+  width: 100%;
+}
