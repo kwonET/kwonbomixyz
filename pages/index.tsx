@@ -1,4 +1,4 @@
-import { allPosts } from ".contentlayer/generated";
+import { allPosts } from "contentlayer/generated";
 import { InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -50,15 +50,17 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
         console.log("main element scrollTop:", currentScrollY);
         setScrollY(currentScrollY);
 
-        // 스크롤이 80% 이상일 때 자기소개 표시
-        if (currentScrollY > mainHeight * 0.8) {
+        // 오버레이가 거의 완성될 때 자기소개 표시 (스크롤 진행도 90% 이상)
+        const currentScrollProgress =
+          mainHeight > 0 ? Math.min(1, currentScrollY / mainHeight) : 0;
+        if (currentScrollProgress > 0.9) {
           setShowIntro(true);
         } else {
           setShowIntro(false);
         }
 
         throttleTimeout = null;
-      }, 16); // 60fps에 맞춰 16ms throttling
+      }, 33); // 30fps로 줄여서 성능 향상 (33ms throttling)
     };
 
     const handleResize = () => {
@@ -151,7 +153,7 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
         >
           <SandBoxOverlay
             cellSize={6}
-            scrollProgress={Math.min(scrollProgress * 3, 1)} // 민감도 낮춤 (10배 → 3배)
+            scrollProgress={Math.min(scrollProgress * 2.5, 1)} // 원형 패턴에 맞춰 조정
             overlayColor={colors}
           />
         </div>
@@ -180,7 +182,8 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
           {/* 두 번째 섹션 - 자기소개 */}
           <div
-            className={`min-h-screen bg-gradient-to-b from-transparent to-black/90 backdrop-blur-sm flex items-center justify-center transition-opacity duration-700 `}
+            className={`min-h-screen bg-gradient-to-b from-transparent to-black/90 backdrop-blur-sm flex items-center justify-center transition-opacity duration-700`}
+            style={{ zIndex: 10 }} // 오버레이 위로 표시
           >
             <div className="max-w-4xl mx-auto px-6 text-center text-white">
               <h1 className="text-6xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">

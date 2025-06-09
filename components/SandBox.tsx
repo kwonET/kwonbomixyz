@@ -73,7 +73,7 @@ const SandBox = ({
             canvas.parent("sketch-container");
 
             // Set simulation framerate to avoid flickering
-            frameRate(2);
+            frameRate(1); // 더 낮은 프레임레이트로 성능 향상
 
             initCellSize();
           }
