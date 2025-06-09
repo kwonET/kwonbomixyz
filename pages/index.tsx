@@ -36,20 +36,29 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    let throttleTimeout: NodeJS.Timeout | null = null;
+
     const handleScroll = (event) => {
-      // main 요소의 스크롤 위치를 가져옵니다
-      const mainElement = event.target;
-      const currentScrollY = mainElement.scrollTop;
+      // 스크롤 이벤트 throttling으로 부드러운 성능
+      if (throttleTimeout) return;
 
-      console.log("main element scrollTop:", currentScrollY);
-      setScrollY(currentScrollY);
+      throttleTimeout = setTimeout(() => {
+        // main 요소의 스크롤 위치를 가져옵니다
+        const mainElement = event.target;
+        const currentScrollY = mainElement.scrollTop;
 
-      // 스크롤이 50% 이상일 때 자기소개 표시
-      if (currentScrollY > mainHeight * 0.5) {
-        setShowIntro(true);
-      } else {
-        setShowIntro(false);
-      }
+        console.log("main element scrollTop:", currentScrollY);
+        setScrollY(currentScrollY);
+
+        // 스크롤이 80% 이상일 때 자기소개 표시
+        if (currentScrollY > mainHeight * 0.8) {
+          setShowIntro(true);
+        } else {
+          setShowIntro(false);
+        }
+
+        throttleTimeout = null;
+      }, 16); // 60fps에 맞춰 16ms throttling
     };
 
     const handleResize = () => {
@@ -70,6 +79,9 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
     window.addEventListener("resize", handleResize, { passive: true });
 
     return () => {
+      if (throttleTimeout) {
+        clearTimeout(throttleTimeout);
+      }
       if (mainElement) {
         mainElement.removeEventListener("scroll", handleScroll);
       }
@@ -139,8 +151,8 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
         >
           <SandBoxOverlay
             cellSize={6}
-            scrollProgress={Math.min(scrollProgress * 10, 1)} // 3배 증폭
-            overlayColor={colors[0]}
+            scrollProgress={Math.min(scrollProgress * 3, 1)} // 민감도 낮춤 (10배 → 3배)
+            overlayColor={colors}
           />
         </div>
 
@@ -167,10 +179,8 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
           <div className="h-screen"></div>
 
           {/* 두 번째 섹션 - 자기소개 */}
-          {/* <div
-            className={`min-h-screen bg-gradient-to-b from-transparent to-black/90 backdrop-blur-sm flex items-center justify-center transition-opacity duration-700 ${
-              showIntro ? "opacity-100" : "opacity-0"
-            }`}
+          <div
+            className={`min-h-screen bg-gradient-to-b from-transparent to-black/90 backdrop-blur-sm flex items-center justify-center transition-opacity duration-700 `}
           >
             <div className="max-w-4xl mx-auto px-6 text-center text-white">
               <h1 className="text-6xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
@@ -204,18 +214,18 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
                     P5.js, Interactive Design, Animation
                   </p>
                 </div>
-              </div> */}
+              </div>
 
-          <div className="mt-12">
-            <button
-              onClick={changeColors}
-              className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105"
-            >
-              색상 변경하기
-            </button>
+              <div className="mt-12">
+                <button
+                  onClick={changeColors}
+                  className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                >
+                  색상 변경하기
+                </button>
+              </div>
+            </div>{" "}
           </div>
-          {/* </div> */}
-          {/* </div> */}
         </div>
       </Container>
     </div>

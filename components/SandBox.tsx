@@ -10,7 +10,7 @@ const SandBox = ({
   running,
   result,
   cellSize,
-  colorPair,
+  colorPair = ["00FF83", "00FBFF"],
 }: SandBoxProps) => {
   const srcdoc = useMemo(() => {
     return `
