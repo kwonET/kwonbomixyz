@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Container from "../components/common/Container";
 import SandBox from "../components/SandBox";
+import SandBoxOverlay from "../components/SandBoxOverlay";
 import { colorPair } from "../data/colors";
 import source from "../data/sourcecode";
 
@@ -13,7 +14,7 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [key, setKey] = useState(0);
   const [scrollY, setScrollY] = useState(0);
   const [showIntro, setShowIntro] = useState(false);
-  const [windowHeight, setWindowHeight] = useState(1000); // 기본값 설정
+  const [mainHeight, setMainHeight] = useState(1000); // main 요소 높이
 
   const setRandomColors = () => {
     const i = Math.floor(Math.random() * 4);
@@ -23,47 +24,58 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   useEffect(() => {
     setRandomColors();
-    // 클라이언트 사이드에서 window.innerHeight 설정
+    // 클라이언트 사이드에서 main 요소 높이 설정
     if (typeof window !== "undefined") {
-      setWindowHeight(window.innerHeight);
+      const mainElement = document.querySelector("main");
+      if (mainElement) {
+        setMainHeight(mainElement.clientHeight);
+      }
     }
   }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    let ticking = false;
+    const handleScroll = (event) => {
+      // main 요소의 스크롤 위치를 가져옵니다
+      const mainElement = event.target;
+      const currentScrollY = mainElement.scrollTop;
 
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
-          setScrollY(currentScrollY);
+      console.log("main element scrollTop:", currentScrollY);
+      setScrollY(currentScrollY);
 
-          // 스크롤이 50vh 이상일 때 자기소개 표시
-          if (currentScrollY > windowHeight * 0.5) {
-            setShowIntro(true);
-          } else {
-            setShowIntro(false);
-          }
-          ticking = false;
-        });
-        ticking = true;
+      // 스크롤이 50% 이상일 때 자기소개 표시
+      if (currentScrollY > mainHeight * 0.5) {
+        setShowIntro(true);
+      } else {
+        setShowIntro(false);
       }
     };
 
     const handleResize = () => {
-      setWindowHeight(window.innerHeight);
+      const mainElement = document.querySelector("main");
+      if (mainElement) {
+        setMainHeight(mainElement.clientHeight);
+      }
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    // main 요소를 찾아서 스크롤 이벤트 등록
+    const mainElement = document.querySelector("main");
+    if (mainElement) {
+      mainElement.addEventListener("scroll", handleScroll, {
+        passive: true,
+      });
+    }
+
     window.addEventListener("resize", handleResize, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      if (mainElement) {
+        mainElement.removeEventListener("scroll", handleScroll);
+      }
       window.removeEventListener("resize", handleResize);
     };
-  }, [windowHeight]);
+  }, [mainHeight]);
 
   const changeColors = () => {
     setRandomColors();
@@ -82,28 +94,53 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   });
 
   // 스크롤 기반 opacity 계산 (0에서 시작해서 점진적으로 사라짐)
-  const sandboxOpacity = Math.max(0, 1 - scrollY / windowHeight);
-  // 스크롤 진행도 계산 (0-1)
-  const scrollProgress = Math.min(1, scrollY / windowHeight);
+  const sandboxOpacity = Math.max(0, 1 - scrollY / mainHeight);
+  // 스크롤 진행도 계산 (0-1) - mainHeight가 0이 아닐 때만 계산
+  const scrollProgress = mainHeight > 0 ? Math.min(1, scrollY / mainHeight) : 0;
+
+  useEffect(() => {
+    console.log(
+      "scrollY:",
+      scrollY,
+      "mainHeight:",
+      mainHeight,
+      "scrollProgress:",
+      scrollProgress
+    );
+  }, [scrollProgress, scrollY, mainHeight]);
 
   return (
     <div className="relative">
       <Container checkedMenu={"Home"}>
-        {/* P5.js SandBox - 스크롤시 점차 사라짐 */}
+        {/* P5.js SandBox - 기존 Game of Life */}
         <div
-          className="fixed top-0 left-0 w-full h-screen transition-opacity duration-300"
+          className="fixed top-0 left-0 w-full h-screen"
           style={{
-            opacity: sandboxOpacity,
-            pointerEvents: "none", // iframe 자체에서 pointer-events를 제어하므로 여기서는 none
+            pointerEvents: "none",
+            zIndex: 1,
           }}
         >
           <SandBox
             key={key}
             running={true}
             result={source}
-            cellSize={7}
+            cellSize={6}
             colorPair={colors}
-            scrollProgress={scrollProgress}
+          />
+        </div>
+
+        {/* P5.js SandBox Overlay - 스크롤 기반 오버레이 */}
+        <div
+          className="fixed top-0 left-0 w-full h-screen"
+          style={{
+            pointerEvents: "none",
+            zIndex: 2,
+          }}
+        >
+          <SandBoxOverlay
+            cellSize={6}
+            scrollProgress={Math.min(scrollProgress * 10, 1)} // 3배 증폭
+            overlayColor={colors[0]}
           />
         </div>
 
@@ -130,7 +167,7 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
           <div className="h-screen"></div>
 
           {/* 두 번째 섹션 - 자기소개 */}
-          <div
+          {/* <div
             className={`min-h-screen bg-gradient-to-b from-transparent to-black/90 backdrop-blur-sm flex items-center justify-center transition-opacity duration-700 ${
               showIntro ? "opacity-100" : "opacity-0"
             }`}
@@ -167,18 +204,18 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
                     P5.js, Interactive Design, Animation
                   </p>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="mt-12">
-                <button
-                  onClick={changeColors}
-                  className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105"
-                >
-                  색상 변경하기
-                </button>
-              </div>
-            </div>
+          <div className="mt-12">
+            <button
+              onClick={changeColors}
+              className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+            >
+              색상 변경하기
+            </button>
           </div>
+          {/* </div> */}
+          {/* </div> */}
         </div>
       </Container>
     </div>

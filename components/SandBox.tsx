@@ -5,9 +5,13 @@ interface SandBoxProps {
   cellSize?: number;
   colorPair?: string[];
   key?: number;
-  scrollProgress?: number; // 스크롤 진행도 (0-1)
 }
-const SandBox = ({ running, result, cellSize, colorPair, scrollProgress = 0 }: SandBoxProps) => {
+const SandBox = ({
+  running,
+  result,
+  cellSize,
+  colorPair,
+}: SandBoxProps) => {
   const srcdoc = useMemo(() => {
     return `
     <!doctype html>
@@ -26,9 +30,7 @@ const SandBox = ({ running, result, cellSize, colorPair, scrollProgress = 0 }: S
           delete window.fetch;
           delete window.XMLHttpRequest;
           
-          // 스크롤 진행도를 받기 위한 변수
-          let scrollProgress = ${scrollProgress};
-          let fadeOutCells = []; // 사라질 셀들의 인덱스
+          // 기존 Game of Life만 실행 (스크롤 관련 기능 제거)
           
           // 로그 메시지를 부모 창으로 전달
           console.log = function(...args) {
@@ -49,22 +51,7 @@ const SandBox = ({ running, result, cellSize, colorPair, scrollProgress = 0 }: S
             return false;
           });
 
-          // 부모 창으로부터 스크롤 진행도 업데이트 받기
-          window.addEventListener('message', function(event) {
-            try {
-              const data = JSON.parse(event.data);
-              if (data.type === 'scrollUpdate') {
-                scrollProgress = data.progress;
-                updateFadeOutCells();
-                // 스크롤 진행도가 낮으면 애니메이션 재시작
-                if (scrollProgress <= 0.8) {
-                  loop();
-                }
-              }
-            } catch (e) {
-              // JSON 파싱 에러 무시
-            }
-          });
+          // 기존 Game of Life는 스크롤과 무관하게 계속 실행
           
           // P5.js 코드 실행
           let cellSize = ${cellSize}; 
@@ -73,32 +60,7 @@ const SandBox = ({ running, result, cellSize, colorPair, scrollProgress = 0 }: S
           let currentCells = [];
           let nextCells = [];
 
-          function updateFadeOutCells() {
-            // 스크롤 진행도에 따라 사라질 셀들을 결정
-            const totalCells = columnCount * rowCount;
-            const cellsToHide = Math.floor(totalCells * scrollProgress);
-            
-            // 기존 fadeOutCells 배열을 초기화
-            fadeOutCells = [];
-            
-            // 성능 최적화: 셀 수가 많을 때는 더 적게 처리
-            const maxCellsToProcess = Math.min(cellsToHide, totalCells * 0.7);
-            
-            // 랜덤하게 셀들을 선택하여 사라지게 함
-            for (let i = 0; i < maxCellsToProcess; i++) {
-              let randomCol, randomRow;
-              let attempts = 0;
-              do {
-                randomCol = Math.floor(Math.random() * columnCount);
-                randomRow = Math.floor(Math.random() * rowCount);
-                attempts++;
-              } while (fadeOutCells.some(cell => cell.col === randomCol && cell.row === randomRow) && attempts < 20);
-              
-              if (attempts < 20) {
-                fadeOutCells.push({ col: randomCol, row: randomRow });
-              }
-            }
-          }
+
 
           function setup() {
             // Get container dimensions
@@ -114,36 +76,23 @@ const SandBox = ({ running, result, cellSize, colorPair, scrollProgress = 0 }: S
             frameRate(2);
 
             initCellSize();
-            updateFadeOutCells();
           }
 
           function draw() {
-            // 스크롤 진행도가 높을 때는 애니메이션 중지
-            if (scrollProgress > 0.8) {
-              noLoop();
-              return;
-            }
-            
             generate();
+            
             for (let column = 0; column < columnCount; column++) {
               for (let row = 0; row < rowCount; row++) {
-                // 현재 셀이 사라져야 하는지 확인
-                const shouldFade = fadeOutCells.some(cell => cell.col === column && cell.row === row);
-                
-                if (shouldFade) {
-                  // 사라지는 셀은 그리지 않음 (또는 투명하게)
-                  continue;
-                }
-
                 // Get cell value (0 or 1)
                 let cell = currentCells[column][row];
 
                 // Set fill color based on cell state
                 if (cell) {
-                  fill("#${colorPair[0]}"); // Light blue for alive cells
+                  fill("#${colorPair[0]}"); // 살아있는 셀 색상
                 } else {
-                  fill("#${colorPair[1]}"); // White for dead cells
+                  fill("#${colorPair[1]}"); // 죽은 셀 색상
                 }
+                
                 strokeWeight(1);
                 stroke('white');
                 rect(column * cellSize, row * cellSize, cellSize);
@@ -159,7 +108,6 @@ const SandBox = ({ running, result, cellSize, colorPair, scrollProgress = 0 }: S
                 currentCells[column][row] = random([0, 1]);
               }
             }
-            updateFadeOutCells();
             loop();
           }
 
@@ -192,7 +140,6 @@ const SandBox = ({ running, result, cellSize, colorPair, scrollProgress = 0 }: S
 
             currentCells = tempCurrent;
             nextCells = tempNext;
-            updateFadeOutCells();
           }
 
           // Create a new generation
@@ -268,24 +215,10 @@ const SandBox = ({ running, result, cellSize, colorPair, scrollProgress = 0 }: S
       </body>
     </html>
   `;
-  }, [cellSize, colorPair, scrollProgress]); // scrollProgress 추가
+  }, [cellSize, colorPair]);
 
   // 이벤트 리스너 추가 (로그와 에러 수신)
   const [logs, setLogs] = useState<string[]>([]);
-  const [iframeRef, setIframeRef] = useState<HTMLIFrameElement | null>(null);
-
-  // 스크롤 진행도가 변경될 때 iframe에 메시지 전송
-  useEffect(() => {
-    if (iframeRef && iframeRef.contentWindow) {
-      iframeRef.contentWindow.postMessage(
-        JSON.stringify({
-          type: 'scrollUpdate',
-          progress: scrollProgress
-        }),
-        '*'
-      );
-    }
-  }, [scrollProgress, iframeRef]);
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -317,13 +250,12 @@ const SandBox = ({ running, result, cellSize, colorPair, scrollProgress = 0 }: S
   return (
     <div className="w-full h-screen">
       <iframe
-        ref={setIframeRef}
         title="p5-sandbox"
         width="100%"
         height="100%"
         srcDoc={srcdoc}
         sandbox="allow-scripts"
-        style={{ pointerEvents: 'none' }}
+        style={{ pointerEvents: "none" }}
       />
     </div>
   );
