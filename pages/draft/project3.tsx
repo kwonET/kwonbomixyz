@@ -4,7 +4,7 @@ import Link from "next/link";
 const Project3 = () => {
   return (
     <Container checkedMenu="Draft">
-      <div className="p-4 md:p-20 bg-white min-h-screen mt-6 pt-2 md:pt-[200px]">
+      <div className="p-4 md:p-20 bg-white min-h-screen mt-6 pt-5 md:pt-[200px]">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
             <Link
@@ -38,7 +38,9 @@ const Project3 = () => {
               bezier 함수를 통해 p5.js로 용의 움직임을 표현했습니다.
             </p>
 
-            <h2 className="text-lg md:text-2xl font-semibold text-gray-800 mb-4 font-gothic2">Link</h2>
+            <h2 className="text-lg md:text-2xl font-semibold text-gray-800 mb-4 font-gothic2">
+              Link
+            </h2>
             <div className="flex flex-wrap gap-2 mb-6">
               <a
                 href="https://github.com/kwonET/Creative-Coding-2024?tab=readme-ov-file#1-dragon"

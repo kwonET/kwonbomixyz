@@ -15,32 +15,51 @@ interface DraftItem {
 
 const DraftLayout = ({ drafts }: { drafts: DraftItem[] }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    AOS.init({
-      duration: 800,
-      easing: "ease-in-sine",
-      once: false,
-      offset: 100, // 모바일에서 더 빨리 트리거되도록 줄임
-      delay: 0,
-      mirror: true,
-      anchorPlacement: "top-bottom", // 모바일에서 더 안정적인 위치
-    });
-
-    const handleRefresh = () => {
-      AOS.refresh();
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md 브레이크포인트 기준
     };
 
-    window.addEventListener("resize", handleRefresh);
-    window.addEventListener("scroll", handleRefresh);
-    window.addEventListener("orientationchange", handleRefresh);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    // 모바일이 아닐 때만 AOS 초기화
+    if (!isMobile) {
+      AOS.init({
+        duration: 800,
+        easing: "ease-in-sine",
+        once: false,
+        offset: 100,
+        delay: 0,
+        mirror: true,
+        anchorPlacement: "top-bottom",
+      });
+    }
 
     return () => {
-      window.removeEventListener("resize", handleRefresh);
-      window.removeEventListener("scroll", handleRefresh);
-      window.removeEventListener("orientationchange", handleRefresh);
+      window.removeEventListener('resize', checkMobile);
     };
-  }, []);
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (!isMobile) {
+      const handleRefresh = () => {
+        AOS.refresh();
+      };
+
+      window.addEventListener("resize", handleRefresh);
+      window.addEventListener("scroll", handleRefresh);
+      window.addEventListener("orientationchange", handleRefresh);
+
+      return () => {
+        window.removeEventListener("resize", handleRefresh);
+        window.removeEventListener("scroll", handleRefresh);
+        window.removeEventListener("orientationchange", handleRefresh);
+      };
+    }
+  }, [isMobile]);
 
   return (
     <Container checkedMenu="Draft">
@@ -52,8 +71,8 @@ const DraftLayout = ({ drafts }: { drafts: DraftItem[] }) => {
                 className="bg-white border-[0.5px] border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
+                data-aos={!isMobile ? "fade-up" : ""}
+                data-aos-delay={!isMobile ? index * 100 : 0}
               >
                 <div className="relative overflow-hidden">
                   <Image
