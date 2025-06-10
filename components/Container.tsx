@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import metadata from "../data/metadata";
 import FullHeightLine from "./common/FullHeightLine";
@@ -15,6 +16,9 @@ const Container = (props) => {
   };
   const handleClick = () => {
     router.replace("/");
+  };
+  const handleClickPost = () => {
+    router.push("/blog3");
   };
   console.log(props);
 
@@ -41,11 +45,10 @@ const Container = (props) => {
           </div>
           <div className="max-w-screen h-px bg-black -mt-2"></div>
           <div
-            className={`hidden md:flex relative ${
-              props.checkedMenu === "Blog"
+            className={`hidden md:flex relative ${props.checkedMenu === "Blog"
                 ? "h-[418px]"
                 : "h-[theme(containerHeight.home-height)]"
-            } w-full`}
+              } w-full`}
           >
             <Nav checkedMenu={props.checkedMenu} isMenu={true} />
             <div className="hidden md:block">
@@ -63,12 +66,16 @@ const Container = (props) => {
                 </>
               )}
               {props.checkedMenu === "Blog" && props.selectedPost && (
-                <div className="hidden md:flex h-[418px]">
+                <div
+                  className="hidden md:flex h-[418px] cursor-pointer"
+                  onClick={handleClickPost}
+                >
                   <div className="w-1/2  relative">
-                    <img
-                      src="https://github.com/user-attachments/assets/3136caa3-1655-4c36-a103-4ee7c1cb1c55"
-                      alt="Blog post image"
-                      className="w-full h-full object-contain"
+                    <Image
+                      src="/ganpan.png"
+                      alt="ganpan"
+                      fill
+                      className="object-fill"
                     />
                   </div>
                   <div className="bg-black w-[1px] h-[100%]"></div>
@@ -93,9 +100,8 @@ const Container = (props) => {
       </header>
 
       <main
-        className={`flex ${
-          props.checkedMenu === "Artwork" ? "w-full" : "justify-center "
-        } overflow-y-auto pt-[200px] md:pt-[200px] px-5 md:pl-[124px] md:pr-[120px]`}
+        className={`flex ${props.checkedMenu === "Artwork" ? "w-full" : "justify-center "
+          } overflow-y-auto pt-[200px] md:pt-[200px] px-5 md:pl-[124px] md:pr-[120px]`}
       >
         {props.children}
       </main>
