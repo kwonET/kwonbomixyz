@@ -1,7 +1,7 @@
 import { allPosts } from ".contentlayer/generated";
+import Container from "@components/common/Container";
 import { InferGetStaticPropsType } from "next";
 import BlogPost from "../components/BlogPost";
-import Container from "../components/common/Container";
 const Blog = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   // const [selectedPost, setSelectedPost] = useState<(typeof posts)[0] | null>(
   //   null

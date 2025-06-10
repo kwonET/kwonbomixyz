@@ -1,4 +1,4 @@
-import Container from "components/common/Container";
+import Container from "@components/common/Container";
 import Link from "next/link";
 
 const Project4 = () => {

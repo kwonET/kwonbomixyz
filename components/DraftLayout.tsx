@@ -23,7 +23,7 @@ const DraftLayout = ({ drafts }: { drafts: DraftItem[] }) => {
     };
 
     checkMobile();
-    window.addEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
 
     // 모바일이 아닐 때만 AOS 초기화
     if (!isMobile) {
@@ -39,7 +39,7 @@ const DraftLayout = ({ drafts }: { drafts: DraftItem[] }) => {
     }
 
     return () => {
-      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener("resize", checkMobile);
     };
   }, [isMobile]);
 
@@ -63,7 +63,7 @@ const DraftLayout = ({ drafts }: { drafts: DraftItem[] }) => {
 
   return (
     <Container checkedMenu="Draft">
-      <div className="p-4 md:p-20 bg-white min-h-screen mt-12 pt-2 md:pt-[200px]">
+      <div className="p-4 md:p-20 bg-white min-h-screen mt-2 pt-2 md:pt-[200px]">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6 max-w-6xl mx-auto">
           {drafts.map((draft, index) => (
             <Link href={draft.link} key={draft.id}>

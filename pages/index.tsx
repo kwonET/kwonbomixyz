@@ -1,8 +1,8 @@
 import { allPosts } from ".contentlayer/generated";
+import Container from "@components/common/Container";
 import { InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Container from "../components/common/Container";
 import SandBox from "../components/SandBox";
 import { colorPair } from "../data/colors";
 import source from "../data/sourcecode";

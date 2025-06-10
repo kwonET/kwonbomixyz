@@ -1,10 +1,9 @@
-import React from "react";
-import Container from "../../components/common/Container";
 import { allPosts } from ".contentlayer/generated";
+import Container from "@components/common/Container";
+import { MDXComponents } from "mdx/types";
 import { InferGetStaticPropsType } from "next";
 import { useMDXComponent } from "next-contentlayer/hooks";
-import Image from 'next/image';
-import { MDXComponents } from 'mdx/types';
+import React from "react";
 
 // MDX 컴포넌트 매핑
 const components: MDXComponents = {
@@ -14,16 +13,18 @@ const components: MDXComponents = {
       <img
         {...props}
         className="w-full"
-        style={{ maxWidth: '100%', height: 'auto' }}
+        style={{ maxWidth: "100%", height: "auto" }}
       />
     </span>
   ),
 
   // 단락
   p: ({ children, ...props }) => {
-    if (React.Children.toArray(children).some(child =>
-      React.isValidElement(child) && child.type === 'img'
-    )) {
+    if (
+      React.Children.toArray(children).some(
+        (child) => React.isValidElement(child) && child.type === "img"
+      )
+    ) {
       return children;
     }
 
@@ -39,10 +40,11 @@ const components: MDXComponents = {
 
   // 코드 블록
   blockquote: (props) => (
-    <blockquote className="my-6 rounded-lg p-4 text-small md:text-small-md lg:text-small-lg text-bg-light overflow-x-auto  non-italic" {...props} />
+    <blockquote
+      className="my-6 rounded-lg p-4 text-small md:text-small-md lg:text-small-lg text-bg-light overflow-x-auto  non-italic"
+      {...props}
+    />
   ),
-
-
 
   // 제목들
   h1: (props) => (
@@ -66,7 +68,10 @@ const components: MDXComponents = {
 
   // 코드 블록
   pre: (props) => (
-    <pre className="my-6 rounded-lg p-4 text-small md:text-small-md lg:text-small-lg text-bg-light overflow-x-auto" {...props} />
+    <pre
+      className="my-6 rounded-lg p-4 text-small md:text-small-md lg:text-small-lg text-bg-light overflow-x-auto"
+      {...props}
+    />
   ),
 
   // 인라인 코드
@@ -80,10 +85,16 @@ const components: MDXComponents = {
 
   // 리스트
   ul: (props) => (
-    <ul className="list-disc text-body md:text-body-md lg:text-body-lg text-font space-y-2 tracking-tight w-full" {...props} />
+    <ul
+      className="list-disc text-body md:text-body-md lg:text-body-lg text-font space-y-2 tracking-tight w-full"
+      {...props}
+    />
   ),
   ol: (props) => (
-    <ol className="list-decimal text-body md:text-body-md lg:text-body-lg text-font space-y-2  tracking-tight w-full" {...props} />
+    <ol
+      className="list-decimal text-body md:text-body-md lg:text-body-lg text-font space-y-2  tracking-tight w-full"
+      {...props}
+    />
   ),
 
   // 링크
@@ -112,14 +123,18 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   };
 
   return (
-    <Container customMeta={customMeta} checkedMenu='BlogDetail'>
+    <Container customMeta={customMeta} checkedMenu="BlogDetail">
       <article className="mx-auto lg:px-0 my-16 max-w-[700px] font-pretendard">
-        <div className="mdx-content prose prose-slate lg:prose-lg
+        <div
+          className="mdx-content prose prose-slate lg:prose-lg
           prose-headings:font-bold prose-headings:tracking-tight
           prose-pre:bg-slate-900 prose-pre:shadow-lg
-          max-w-none pt-32">
+          max-w-none pt-32"
+        >
           <div className="flex flex-col md:hidden mb-8 px-4">
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight my-3 leading-snug font-gothic2">{post.title}</h1>
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight my-3 leading-snug font-gothic2">
+              {post.title}
+            </h1>
             <div className="flex items-center space-x-2 text-sm text-slate-600  font-gothic1">
               <time dateTime={post.date}>{customMeta.date}</time>
               {post.tag && (
