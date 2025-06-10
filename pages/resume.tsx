@@ -261,7 +261,7 @@ const Resume = () => {
                   </li>
                   <li className="flex items-start">
                     <span className="w-1 h-1 bg-gray-400 rounded-full mt-2.5 mr-3 flex-shrink-0"></span>
-                    p5.js를 활용한 Conway's Game of Life 셀룰러 오토마타
+                    p5.js를 활용한 Conways Game of Life 셀룰러 오토마타
                     시뮬레이션을 활용한 인터랙션 제작
                   </li>
                 </ul>
