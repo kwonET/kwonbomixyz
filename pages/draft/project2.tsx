@@ -1,5 +1,4 @@
 import Container from "components/common/Container";
-import Image from "next/image";
 import Link from "next/link";
 
 const Project2 = () => {
@@ -20,13 +19,27 @@ const Project2 = () => {
             Mesh Gradient with css radial gradient
           </h1>
 
-          <div className="relative aspect-video mb-8 rounded-lg overflow-hidden shadow-lg">
-            <Image
-              src="/draft_2.png"
-              alt="Draft Project 2"
-              fill
-              className="object-cover"
-            />
+          <div className="flex gap-6 mb-8">
+            <div className="relative aspect-square flex-1 rounded-lg overflow-hidden shadow-lg">
+              <video
+                src="/draft/draft2m.mov"
+                className="w-full h-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+              ></video>
+            </div>
+            <div className="relative aspect-square flex-1 rounded-lg overflow-hidden shadow-lg">
+              <video
+                src="/draft/draft2-1.mov"
+                className="w-full h-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+              ></video>
+            </div>
           </div>
 
           <div className="prose max-w-none">
@@ -41,16 +54,8 @@ const Project2 = () => {
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">Link</h2>
             <div className="flex flex-wrap gap-2 mb-6">
               <a
-                href="#"
+                href="https://github.com/zepum/ui_craft/tree/main/packages/crafts/mesh-gradient"
                 target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm hover:bg-green-200 transition-colors duration-300"
-              >
-                Live Demo
-              </a>
-              <a
-                href="#"
-                target="https://github.com/zepum/ui_craft/pull/15"
                 rel="noopener noreferrer"
                 className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200 transition-colors duration-300"
               >

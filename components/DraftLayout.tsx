@@ -21,10 +21,10 @@ const DraftLayout = ({ drafts }: { drafts: DraftItem[] }) => {
       duration: 800,
       easing: "ease-in-sine",
       once: false,
-      offset: 100,
+      offset: 50, // 모바일에서 더 빨리 트리거되도록 줄임
       delay: 0,
       mirror: true,
-      anchorPlacement: "top-bottom",
+      anchorPlacement: "center-bottom", // 모바일에서 더 안정적인 위치
     });
 
     const handleRefresh = () => {
@@ -44,16 +44,17 @@ const DraftLayout = ({ drafts }: { drafts: DraftItem[] }) => {
 
   return (
     <Container checkedMenu="Draft">
-      <div className="p-20 bg-white min-h-screen mt-6 pt-2 md:pt-[200px]">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+      <div className="p-20 bg-white min-h-screen mt-12 pt-2 md:pt-[200px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
           {drafts.map((draft, index) => (
             <Link href={draft.link} key={draft.id}>
               <div
-                className="bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
+                className="bg-white border-[0.5px] border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 data-aos="fade-up"
-                data-aos-delay={index * 100}
+                data-aos-delay={index * 50}
+                data-aos-offset="30"
               >
                 <div className="relative overflow-hidden">
                   <Image
@@ -61,8 +62,9 @@ const DraftLayout = ({ drafts }: { drafts: DraftItem[] }) => {
                     alt={draft.title}
                     width={1600}
                     height={900}
-                    className={`w-full h-full object-cover transition-all duration-300 aspect-[4/3] ${hoveredIndex === index ? "" : "grayscale"
-                      }`}
+                    className={`w-full h-full object-cover transition-all duration-300 aspect-[4/3] 
+
+                    `}
                   />
                 </div>
                 <div className="p-4">

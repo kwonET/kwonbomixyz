@@ -22,10 +22,10 @@ const Project1 = () => {
 
           <div className="relative aspect-video mb-8 rounded-lg overflow-hidden shadow-lg">
             <Image
-              src="/draft_1.png"
+              src="/draft/draft1.png"
               alt="Draft Project 1"
               fill
-              className="object-cover"
+              className="object-fill"
             />
           </div>
 
